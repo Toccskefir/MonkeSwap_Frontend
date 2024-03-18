@@ -6,13 +6,14 @@ function LoginRegister() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordAgain, setPasswordAgain] = useState('');
     const [action, setAction] = useState(true);
 
     return (
         <div className="d-flex justify-content-center">
             <div className="w-50 border">
 
-                <h1>{action ? "Log In" : "Registration"}</h1>
+                <h1>{action ? "Login" : "Account creation"}</h1>
 
                 <form>
                     {action ? null :
@@ -20,16 +21,16 @@ function LoginRegister() {
                             <label>
                                 Username
                                 <input type="text" className="form-control" id="inputUsername"
-                                       placeholder="Felhasználónév" value={username}/>
+                                       placeholder="Monke" value={username}/>
                             </label>
                         </div>
                     }
 
                     <div className="form-group">
                         <label>
-                            Email address
+                            Email
                             <input type="text" className="form-control" id="inputEmail"
-                                   placeholder="pelda@gmail.com" value={email}/>
+                                   placeholder="monke@swap.com" value={email}/>
                         </label>
                     </div>
 
@@ -37,7 +38,7 @@ function LoginRegister() {
                         <label>
                             Password
                             <input type="password" className="form-control" id="inputPassword"
-                                   placeholder="Jelszó" value={password}/>
+                                   placeholder="********" value={password}/>
                         </label>
                     </div>
 
@@ -45,9 +46,9 @@ function LoginRegister() {
                         <>
                             <div className="form-group">
                                 <label>
-                                    Password again
+                                    Confirm password
                                     <input type="text" className="form-control" id="inputPasswordAgain"
-                                           placeholder="Jelszó megerősítése" value={password}/>
+                                           placeholder="********" value={passwordAgain}/>
                                 </label>
                             </div>
                             <div className="form-check">
@@ -66,9 +67,9 @@ function LoginRegister() {
                     }
 
                     {action ?
-                        <button type="submit" id="buttonLogin">Log in</button>
+                        <button type="submit" id="buttonLogin">Login</button>
                         :
-                        <button type="submit" id="buttonRegistration">Register</button>
+                        <button type="submit" id="buttonRegistration">Create</button>
                     }
                 </form>
 
