@@ -1,4 +1,4 @@
-export default interface UserDataDTO {
+export default interface User {
     email: string,
     username: string,
     tradesCompleted: number,
