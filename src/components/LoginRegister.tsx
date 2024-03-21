@@ -35,7 +35,7 @@ function LoginRegister() {
             } else if (!acceptTerms) {
                 setErrorMessage('You need to accept terms & conditions');
             } else {
-                axios.post('auth/register', {username, email, password})
+                axios.post('auth/register', {username, email, password}, {headers: { Authorization: ''}})
                     .then(async(response) => {
                         setAction(true);
                         setFormToInitState();

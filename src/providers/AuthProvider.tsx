@@ -15,11 +15,12 @@ function AuthProvider ({children}: AuthProviderProps) {
     const navigate = useNavigate();
 
     async function login(user: LoginDataDto) {
-        await axios.post('auth/login', {email: user.email, password: user.password})
+        await axios.post('auth/login', {email: user.email, password: user.password},
+            {headers: { Authorization: ''}} )
             .then((response) => {
                 setToken(response.data.token);
                 localStorage.setItem('accessToken', response.data.token);
-                navigate('/homepage');
+                navigate('/');
             })
             .catch((error) => {
                 if (error.response) {
@@ -32,6 +33,7 @@ function AuthProvider ({children}: AuthProviderProps) {
     function logout() {
         setToken(null);
         localStorage.removeItem('accessToken');
+        navigate('/login')
     }
 
     return (
