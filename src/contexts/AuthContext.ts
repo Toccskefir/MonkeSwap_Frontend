@@ -5,7 +5,6 @@ interface AuthContextProps {
     token: string | null,
     login: (user: LoginDataDto) => Promise<void>,
     logout: () => void,
-    getUserData: () => void,
     init: boolean;
 }
 
