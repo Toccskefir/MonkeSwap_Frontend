@@ -10,20 +10,23 @@ import TradeOffers from "./components/TradeOffers";
 import Profile from "./components/Profile";
 import AuthProvider from "./providers/AuthProvider";
 import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
       <Router>
           <AuthProvider>
-              <Navbar/>
+              <Navbar />
               <Routes>
-                  <Route path="/" element={<LoginRegister/>}/>
-                  <Route element={<PrivateRoute/>}>
-                      <Route path="/homepage" element={<Homepage/>}/>
-                      <Route path="/notifications" element={<Notifications/>}/>
-                      <Route path="/tradeoffers" element={<TradeOffers/>}/>
-                      <Route path="/itemcreation" element={<ItemCreation/>}/>
-                      <Route path="/profile" element={<Profile/>}/>
+                  <Route element={<PublicRoute />}>
+                      <Route path="/login" element={<LoginRegister />}/>
+                  </Route>
+                  <Route element={<PrivateRoute />}>
+                      <Route path="/" element={<Homepage />}/>
+                      <Route path="/notifications" element={<Notifications />}/>
+                      <Route path="/tradeoffers" element={<TradeOffers />}/>
+                      <Route path="/itemcreation" element={<ItemCreation />}/>
+                      <Route path="/profile" element={<Profile />}/>
                   </Route>
               </Routes>
           </AuthProvider>
