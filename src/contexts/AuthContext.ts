@@ -1,11 +1,10 @@
 import {createContext} from "react";
-import LoginDataDto from "../interfaces/loginDataDto";
+import LoginData from "../interfaces/loginData";
 
 interface AuthContextProps {
     token: string | null,
-    login: (user: LoginDataDto) => Promise<void>,
+    login: (user: LoginData) => Promise<void>,
     logout: () => void,
-    init: boolean;
 }
 
 export const AuthContext = createContext<AuthContextProps>(null as any);

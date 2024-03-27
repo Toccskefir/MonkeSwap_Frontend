@@ -1,8 +1,8 @@
-import {ReactNode, useState} from "react";
+import {ReactNode, useContext, useState} from "react";
 import {AuthContext} from "../contexts/AuthContext";
-import axios from "../axios";
-import LoginDataDto from "../interfaces/loginDataDto";
+import LoginData from "../interfaces/loginData";
 import {useNavigate} from "react-router-dom";
+import {HttpContext} from "./HttpProvider";
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -10,12 +10,13 @@ interface AuthProviderProps {
 
 function AuthProvider ({children}: AuthProviderProps) {
     const [token, setToken] = useState(localStorage.getItem('accessToken') || null);
-    const [init, setInit] = useState(false);
 
     const navigate = useNavigate();
 
-    async function login(user: LoginDataDto) {
-        await axios.post('auth/login', {email: user.email, password: user.password},
+    const axios = useContext(HttpContext);
+
+    async function login(user: LoginData) {
+        await axios.post('http://localhost:8080/auth/login', {email: user.email, password: user.password},
             {headers: { Authorization: ''}} )
             .then((response) => {
                 setToken(response.data.token);
@@ -37,7 +38,7 @@ function AuthProvider ({children}: AuthProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{token, login, logout, init}}>
+        <AuthContext.Provider value={{token, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
