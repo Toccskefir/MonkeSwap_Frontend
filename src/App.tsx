@@ -11,24 +11,27 @@ import Profile from "./components/Profile";
 import AuthProvider from "./providers/AuthProvider";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import HttpProvider from "./providers/HttpProvider";
 
 function App() {
   return (
       <Router>
           <AuthProvider>
-              <Navbar />
-              <Routes>
-                  <Route element={<PublicRoute />}>
-                      <Route path="/login" element={<LoginRegister />}/>
-                  </Route>
-                  <Route element={<PrivateRoute />}>
-                      <Route path="/" element={<Homepage />}/>
-                      <Route path="/notifications" element={<Notifications />}/>
-                      <Route path="/tradeoffers" element={<TradeOffers />}/>
-                      <Route path="/itemcreation" element={<ItemCreation />}/>
-                      <Route path="/profile" element={<Profile />}/>
-                  </Route>
-              </Routes>
+              <HttpProvider>
+                  <Navbar />
+                  <Routes>
+                      <Route element={<PublicRoute />}>
+                          <Route path="/login" element={<LoginRegister />}/>
+                      </Route>
+                      <Route element={<PrivateRoute />}>
+                          <Route path="/" element={<Homepage />}/>
+                          <Route path="/notifications" element={<Notifications />}/>
+                          <Route path="/tradeoffers" element={<TradeOffers />}/>
+                          <Route path="/itemcreation" element={<ItemCreation />}/>
+                          <Route path="/profile" element={<Profile />}/>
+                      </Route>
+                  </Routes>
+              </HttpProvider>
           </AuthProvider>
       </Router>
   );
