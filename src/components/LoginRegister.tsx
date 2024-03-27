@@ -1,8 +1,7 @@
 import React, {useContext, useState} from 'react';
 import './LoginRegister.css';
-import 'bootstrap/dist/css/bootstrap.css'
 import {AuthContext} from "../contexts/AuthContext";
-import axios from "../axios";
+import {HttpContext} from "../providers/HttpProvider";
 
 function LoginRegister() {
     const [username, setUsername] = useState('');
@@ -16,6 +15,7 @@ function LoginRegister() {
     const [action, setAction] = useState(true);
 
     const {login} = useContext(AuthContext);
+    const axios = useContext(HttpContext);
 
     async function handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -35,14 +35,14 @@ function LoginRegister() {
             } else if (!acceptTerms) {
                 setErrorMessage('You need to accept terms & conditions');
             } else {
-                axios.post('auth/register', {username, email, password}, {headers: { Authorization: ''}})
+                axios.post('http://localhost:8080/auth/register', {username, email, password}, {headers: { Authorization: ''}})
                     .then(async(response) => {
                         setAction(true);
                         setFormToInitState();
                     }).catch((error) => {
-                    if (error.response) {
-                        setErrorMessage(error.response.data);
-                    }
+                        if (error.response) {
+                            setErrorMessage(error.response.data);
+                        }
                 });
             }
         }
@@ -113,7 +113,7 @@ function LoginRegister() {
                                 <label>
                                     Confirm password
                                     <input
-                                        type="text"
+                                        type="password"
                                         className="form-control"
                                         id="inputPasswordAgain"
                                         placeholder="********"
@@ -162,7 +162,7 @@ function LoginRegister() {
                         setFormToInitState();
                     }}>Register</button>
                     :
-                    <button type="submit" id="buttonCancel" onClick={() => {
+                    <button type="button" id="buttonCancel" onClick={() => {
                         setAction(true);
                         setFormToInitState();
                     }}>Back</button>
