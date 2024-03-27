@@ -1,4 +1,4 @@
-export default interface LoginDataDto {
+export default interface LoginData {
     email: string,
     password: string,
 }
