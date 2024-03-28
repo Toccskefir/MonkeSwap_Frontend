@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import NotificationData from "../interfaces/notificationInterface";
+import NotificationData from "../interfaces/notificationData";
 import Notification from "./Notification";
 import {HttpContext} from "../providers/HttpProvider";
 

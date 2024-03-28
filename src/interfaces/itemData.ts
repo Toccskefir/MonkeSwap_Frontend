@@ -1,4 +1,4 @@
-import ItemCardData from "./itemCardInterface";
+import ItemCardData from "./itemCardData";
 
 export  default interface ItemData extends ItemCardData{
     views: number,

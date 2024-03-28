@@ -1,4 +1,4 @@
-import NotificationData from "../interfaces/notificationInterface";
+import NotificationData from "../interfaces/notificationData";
 
 function Notification(notification: NotificationData) {
     const typeBoolean = notification.type === 'WARNING';
