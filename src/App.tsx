@@ -12,6 +12,7 @@ import AuthProvider from "./providers/AuthProvider";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import HttpProvider from "./providers/HttpProvider";
+import Inventory from "./components/Inventory";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                           <Route path="/notifications" element={<Notifications />}/>
                           <Route path="/tradeoffers" element={<TradeOffers />}/>
                           <Route path="/itemcreation" element={<ItemCreation />}/>
+                          <Route path="/inventory" element={<Inventory />}/>
                           <Route path="/profile" element={<Profile />}/>
                       </Route>
                   </Routes>

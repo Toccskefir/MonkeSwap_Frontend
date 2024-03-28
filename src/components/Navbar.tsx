@@ -12,6 +12,7 @@ function Navbar() {
                     <li><Link to="/notifications">Notifications</Link></li>
                     <li><Link to="/tradeoffers">Trade offers</Link></li>
                     <li><Link to="/itemcreation">Item Creation</Link></li>
+                    <li><Link to="/inventory">Inventory</Link></li>
                     <li><Link to="/profile">Profile</Link></li>
                 </ul>
             }
