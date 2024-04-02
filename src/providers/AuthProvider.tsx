@@ -34,11 +34,20 @@ function AuthProvider ({children}: AuthProviderProps) {
     function logout() {
         setToken(null);
         localStorage.removeItem('accessToken');
-        navigate('/login')
+        navigate('/login');
+    }
+
+    function userDelete() {
+        axios.delete('user')
+            .then(() => {
+                setToken(null);
+                localStorage.removeItem('accessToken');
+                navigate('/login');
+            });
     }
 
     return (
-        <AuthContext.Provider value={{token, login, logout}}>
+        <AuthContext.Provider value={{token, login, logout, userDelete}}>
             {children}
         </AuthContext.Provider>
     );
