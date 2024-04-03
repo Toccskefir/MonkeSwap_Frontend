@@ -11,7 +11,7 @@ export const HttpContext = React.createContext<AxiosInstance>(axios);
 function createAxios(token: string|null){
     if (token) {
         return axios.create({
-            baseURL: "http://localhost:8080/",
+            baseURL: "http://localhost:3000/",
             headers: {
                 Authorization: 'Bearer ' + token
             }

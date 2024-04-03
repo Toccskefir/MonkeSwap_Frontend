@@ -16,7 +16,7 @@ function AuthProvider ({children}: AuthProviderProps) {
     const axios = useContext(HttpContext);
 
     async function login(user: LoginData) {
-        await axios.post('http://localhost:8080/auth/login', {email: user.email, password: user.password},
+        await axios.post('http://localhost:3000/auth/login', {email: user.email, password: user.password},
             {headers: { Authorization: ''}} )
             .then((response) => {
                 setToken(response.data.token);
