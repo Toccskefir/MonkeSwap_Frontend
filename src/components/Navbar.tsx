@@ -1,8 +1,8 @@
-import {useContext, useState} from "react";
+import {useContext, useRef, useState, useEffect} from "react";
 import {AuthContext} from "../contexts/AuthContext";
 import {Link} from 'react-router-dom'
 import {FiMenu} from "react-icons/fi";
-import {FaInbox} from "react-icons/fa";
+import {FaBell} from "react-icons/fa";
 import {IoCloseOutline} from "react-icons/io5";
 import clsx from "clsx";
 
@@ -10,6 +10,7 @@ export function Navbar() {
     const {token} = useContext(AuthContext);
 
     const [isSideMenuOpen, setMenu] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     const navLinks =
         [
@@ -65,35 +66,34 @@ export function Navbar() {
 
                         {/*Notifications icon and avatar*/}
                         <section className="flex items-center md:px-0 gap-4">
-                            <Link to="/notifications"><FaInbox className="block text-3xl cursor-pointer text-yellow-900 hover:text-black
+                            <Link to="/notifications"><FaBell className="block text-3xl
+                            cursor-pointer text-yellow-900 hover:text-black
                  transition-colors duration-200 max-sm:hidden"/></Link>
                             <button className="rounded-full border-3 border-yellow-900 hover:border-black
-                 transition-colors duration-200 focus:border-black">
+                 transition-colors duration-200 focus:border-black"
+                                    onClick={()=> setIsOpen((prev) => !prev)}
+                                    onBlur={()=>setIsOpen(false)}>
                                 <img className="h-12 w-12 rounded-full cursor-pointer"
                                      src="https://i.imgur.com/61LN9Ye.jpeg"
                                      alt="avatar-img"/>
                             </button>
                         </section>
                     </nav>
-                    <div className="mt-2 py-2 w-60 bg-white rounded-lg shadow-xl">
-                        <Link to="#"
-                              className="block px-4 py-2 text-gray-800 hover:bg-indigo-500
-                              hover:text-white no-underline">Profile</Link>
-                        <Link to="#"
-                              className="block px-4 py-2 text-gray-800 hover:bg-indigo-500
-                              hover:text-white no-underline">Notifications</Link>
-                        <Link to="#" className="block px-4 py-2 text-gray-800 hover:bg-indigo-500
-                        hover:text-white no-underline">Log
-                            out</Link>
-                    </div>
+                    {isOpen && (
+                        <div className="top-20 right-8 w-60 bg-white rounded-lg shadow-xl
+                         border-gray-400 border-1 position-fixed font-semibold">
+                            <Link to="#"
+                                  className="block px-4 py-2 text-gray-950 hover:bg-yellow-900
+                              hover:text-white rounded-lg no-underline">Profile</Link>
+                            <Link to="#"
+                                  className="block sm:hidden px-4 py-2 text-gray-950 hover:bg-yellow-900
+                              hover:text-white rounded-lg no-underline">Notifications</Link>
+                            <Link to="#" className="block px-4 py-2 text-gray-950 hover:bg-yellow-900
+                        hover:text-white rounded-lg no-underline">Log
+                                out</Link>
+                        </div>
+                    )}
                 </main>
-                /*export default{
-                data(){
-                return{
-                isOpen: false
-            }
-            }
-            }*/
             }
         </>
     );
