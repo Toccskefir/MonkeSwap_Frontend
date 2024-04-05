@@ -29,14 +29,14 @@ function LoginRegister() {
             }
         } else {
             if (password !== passwordAgain) {
-                setErrorMessage('Passwords are not matching')
+                setErrorMessage('Passwords must match');
             } else if (!isAdult) {
                 setErrorMessage('You must be over the age of 18');
             } else if (!acceptTerms) {
                 setErrorMessage('You need to accept terms & conditions');
             } else {
                 axios.post('http://localhost:3000/auth/register', {username, email, password}, {headers: { Authorization: ''}})
-                    .then(async(response) => {
+                    .then(async() => {
                         setAction(true);
                         setFormToInitState();
                     }).catch((error) => {
@@ -63,6 +63,20 @@ function LoginRegister() {
                 <h1>{action ? "Login" : "Account creation"}</h1>
 
                 <form onSubmit={handleSubmitEvent}>
+                    <div className="form-group">
+                        <label>
+                            Email
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="inputEmail"
+                                placeholder="monke@swap.com"
+                                value={email}
+                                onChange={event => setEmail(event.target.value)}
+                            />
+                        </label>
+                    </div>
+
                     {action ? null :
                         <div className="form-group">
                             <label>
@@ -78,20 +92,6 @@ function LoginRegister() {
                             </label>
                         </div>
                     }
-
-                    <div className="form-group">
-                        <label>
-                            Email
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="inputEmail"
-                                placeholder="monke@swap.com"
-                                value={email}
-                                onChange={event => setEmail(event.target.value)}
-                            />
-                        </label>
-                    </div>
 
                     <div className="form-group">
                         <label>
