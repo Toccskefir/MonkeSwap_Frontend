@@ -4,9 +4,10 @@ import {useNavigate} from "react-router-dom";
 import ItemCard from "./ItemCard";
 import basic_item_card_pic from "../assets/basic_item_card_pic.jpg";
 import {HttpContext} from "../providers/HttpProvider";
+import categoryList from "../constants/categoryList";
 
 function ItemCreation() {
-    const [itemPicture, setItemPicture] = useState('');
+    const [itemPicture, setItemPicture] = useState<Blob | null>(null);
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('OTHER');
@@ -19,9 +20,18 @@ function ItemCreation() {
 
     async function handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        await axios.post('item', {title, itemPicture, description, category, priceTier})
+        const formData = new FormData();
+        formData.append('title', title);
+        if (itemPicture) {
+            formData.append('itemPicture', itemPicture);
+        }
+        formData.append('description', description);
+        formData.append('category', category);
+        formData.append('priceTier', priceTier.toString());
+
+        await axios.post('item', formData)
             .then(async () => {
-                navigate('/');
+                navigate('/inventory');
             }).catch((error) => {
                 if (error.response) {
                     setErrorMessage(error.response.data);
@@ -29,26 +39,9 @@ function ItemCreation() {
             });
     }
 
-    async function itemPictureUpload(event: React.ChangeEvent<HTMLInputElement>) {
-        const files = event.target.files;
+    function handleItemPictureChange(files: FileList | null) {
         if ( files && files.length > 0) {
-            const clientId = '3c7b9d040312b85';
-            const auth = 'Client-ID ' + clientId;
-            const formData = new FormData();
-            formData.append('itemPicture', files[0]);
-
-            axios.defaults.baseURL = 'https://api.imgur.com/3/';
-            const config= {
-                headers: {
-                    Authorization: auth,
-                },
-            }
-            try {
-                const response = await axios.post('image/', formData, config);
-                console.log(response.data);
-            } catch (error) {
-                console.log(error);
-            }
+            setItemPicture(data => files[0]);
         }
     }
 
@@ -64,7 +57,7 @@ function ItemCreation() {
                             id="inputImage"
                             className="form-control"
                             accept="image/*"
-                            onChange={itemPictureUpload}
+                            onChange={(event) => handleItemPictureChange(event.target.files)}
                         />
                     </label>
                 </div>
@@ -76,7 +69,7 @@ function ItemCreation() {
                             type="text"
                             id="inputTitle"
                             className="form-control"
-                            placeholder="Rubber duckie"
+                            placeholder="Golden monkey"
                             value={title}
                             onChange={event => setTitle(event.target.value)}
                         />
@@ -89,7 +82,7 @@ function ItemCreation() {
                         <textarea
                             id="inputDescription"
                             className="form-control"
-                            placeholder="It floats..."
+                            placeholder="A monkey made of gold..."
                             value={description}
                             onChange={event => setDescription(event.target.value)}
                         />
@@ -105,16 +98,14 @@ function ItemCreation() {
                             value={category}
                             onChange={event => setCategory(event.target.value)}
                         >
-                                <option value="VEHICLE">Vehicle</option>
-                                <option value="HOME">Home</option>
-                                <option value="HOUSEHOLD">Household</option>
-                                <option value="ELECTRONICS">Electronics</option>
-                                <option value="FREETIME">Free time</option>
-                                <option value="SPORT">Sport</option>
-                                <option value="FASHION">Fashion</option>
-                                <option value="COLLECTIBLES">Collectibles</option>
-                                <option value="PETS">Pets</option>
-                                <option value="OTHER">Other</option>
+                            {categoryList.map(item => (
+                                    <option
+                                        key={item}
+                                        value={item.toUpperCase().replaceAll(' ', '')}
+                                    >
+                                        {item}
+                                    </option>
+                            ))}
                         </select>
                     </label>
                 </div>
@@ -125,7 +116,7 @@ function ItemCreation() {
 
             <ItemCard
                 title={title.trim() === '' ? 'Golden monkey' : title}
-                itemPicture={itemPicture.trim() === '' ? basic_item_card_pic : itemPicture}
+                itemPicture={itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic}
                 description={description.trim() === '' ? 'A monkey made of gold...' : description}
                 priceTier={priceTier}
             />
