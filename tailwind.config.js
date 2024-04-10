@@ -13,9 +13,6 @@ module.exports = {
           yellow: 'hsl(56, 100%, 50%)'
         },
       },
-      spacing: {
-        'copyright-positioning' : '600px'
-      }
     },
   },
   plugins: [],
