@@ -5,7 +5,7 @@ import ItemCard from "./ItemCard";
 import basic_item_card_pic from "../assets/basic_item_card_pic.jpg";
 import {HttpContext} from "../providers/HttpProvider";
 
-function ItemCreation() {
+function CreateItem() {
     const [itemPicture, setItemPicture] = useState('');
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('');
@@ -133,4 +133,4 @@ function ItemCreation() {
     );
 }
 
-export default ItemCreation;
+export default CreateItem;
