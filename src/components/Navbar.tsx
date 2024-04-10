@@ -65,7 +65,7 @@ function Navbar() {
                                         {d.label}
                                     </Link>
                                 ))}
-                                <p className="position-fixed bottom-3 left-10">MonkeSwap© 2024</p>
+                                <p className="position-fixed bottom-3 left-10">MonkeSwap&trade; 2024</p>
                             </section>
                         </div>
 
