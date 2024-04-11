@@ -5,18 +5,21 @@ import UserData from "../interfaces/userData";
 import ProfilePicture from "./ProfilePicture";
 
 function Profile() {
+    const {userData, setUserData, logout} = useContext(AuthContext);
+    const axios = useContext(HttpContext);
+
     const [user, setUser] = useState<UserData | null>();
     const [username, setUsername] = useState(user?.username);
     const [fullName, setFullName] = useState(user?.fullName);
     const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth);
     const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
     const [selectedProfilePicture, setSelectedProfilePicture] = useState<Blob | null>(null);
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordAgain, setNewPasswordAgain] = useState('');
     const [editingProfile, setEditingProfile] = useState(false);
     const [editingProfilePicture, setEditingProfilePicture] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
-    const {userData, setUserData, logout} = useContext(AuthContext);
-    const axios = useContext(HttpContext);
+    const [errorMessagePassword, setErrorMessagePassword] = useState('');
 
     useEffect(() => {
         if(userData) {
@@ -49,7 +52,6 @@ function Profile() {
         axios.put('user/profilepicture', formData)
             .then((response) => {
                 if (user) {
-                    console.log(response.data)
                     setUserData({...user, profilePicture: response.data.profilePicture});
                 }
                 cancelProfilePictureEditing();
@@ -82,6 +84,25 @@ function Profile() {
             .catch((error) => {
                 if (error.response) {
                     setErrorMessage(error.response.data);
+                }
+            });
+    }
+
+    function handlePasswordSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        if (newPassword !== newPasswordAgain) {
+            setErrorMessage('Passwords must match');
+            return;
+        }
+        axios.put('user/password', {password: newPassword})
+            .then(() => {
+                setNewPassword('');
+                setNewPasswordAgain('');
+                setErrorMessagePassword('Password changed');
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setErrorMessagePassword(error.response.data);
                 }
             });
     }
@@ -146,6 +167,28 @@ function Profile() {
                 <button type="submit">{editingProfile ? 'Save changes' : ''}</button>
             </form>
             <button onClick={handleProfileEditing}>{editingProfile ? 'Back' : 'Edit profile'}</button>
+            <form onSubmit={handlePasswordSubmitEvent}>
+                <label>
+                    New password
+                    <input
+                        type="password"
+                        placeholder="********"
+                        value={newPassword}
+                        onChange={event => setNewPassword(event.target.value)}
+                    />
+                </label>
+                <label>
+                    Confirm new password
+                    <input
+                        type="password"
+                        placeholder="********"
+                        value={newPasswordAgain}
+                        onChange={event => setNewPasswordAgain(event.target.value)}
+                    />
+                </label>
+                <p>{errorMessagePassword}</p>
+                <button type="submit">Save new password</button>
+            </form>
             <button onClick={userDelete}>Delete user</button>
         </div>
     );
