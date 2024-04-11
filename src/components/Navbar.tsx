@@ -1,4 +1,5 @@
-import {useContext, useState} from "react";
+import default_profile_pic from "../assets/default_profile_pic.png";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../contexts/AuthContext";
 import {Link} from 'react-router-dom'
 import {FiMenu} from "react-icons/fi";
@@ -7,10 +8,15 @@ import {IoCloseOutline} from "react-icons/io5";
 import clsx from "clsx";
 
 function Navbar() {
-    const {token, logout} = useContext(AuthContext);
+    const {token, userData, logout} = useContext(AuthContext);
 
     const [isSideMenuOpen, setMenu] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [profilePicture, setProfilePicture] = useState(userData?.profilePicture);
+
+    useEffect(() => {
+        setProfilePicture(userData?.profilePicture);
+    }, [userData]);
 
     const navLinks =
         [
@@ -19,9 +25,14 @@ function Navbar() {
             { label: "Inventory", href: "/inventory"},
         ]
 
-    function sideMenuClosingHandler(){
+    function handleSideMenuClosing(){
         setMenu(true);
         setIsOpen(false);
+    }
+
+    function handleLogOut() {
+        setIsOpen(false);
+        logout();
     }
 
     return (
@@ -34,7 +45,7 @@ function Navbar() {
                         <div className="flex items-center gap-8">
                             <section className="flex items-center gap-4">
                                 <FiMenu className="text-3xl cursor-pointer text-yellow-900 lg:hidden md:ml-7 md:mt-1
-                        hover:text-black hover:font-bold transition-all duration-300" onClick={sideMenuClosingHandler}/>
+                        hover:text-black hover:font-bold transition-all duration-300" onClick={handleSideMenuClosing}/>
                                 <Link to="/"
                                       className="text-4xl font-poppins no-underline text-black font-bold max-sm:ml-7 max-sm:text-2xl">
                                     MonkeSwap
@@ -76,9 +87,9 @@ function Navbar() {
                  transition-colors duration-200 max-sm:hidden"/></Link>
                             <button className="rounded-full border-3 border-yellow-900 hover:border-black
                  transition-colors duration-200 focus:border-black"
-                                    onClick={()=> setIsOpen((prev) => !prev)}>
+                                    onClick={()=> setIsOpen(prev => !prev)}>
                                 <img className="h-12 w-12 max-sm:h-8 max-sm:w-8 rounded-full cursor-pointer"
-                                     src="https://i.imgur.com/61LN9Ye.jpeg"
+                                     src={profilePicture ? `data:image/png;base64, ${profilePicture}` : default_profile_pic}
                                      alt="avatar-img"/>
                             </button>
                         </section>
@@ -93,9 +104,7 @@ function Navbar() {
                                   className="block sm:hidden px-4 py-2 text-gray-950 hover:bg-yellow-900
                               hover:text-white rounded-lg no-underline" onClick={()=> setIsOpen(false)}>Notifications</Link>
                             <button className="block w-full text-left px-4 py-2 text-gray-950 hover:bg-yellow-900
-                        hover:text-white rounded-lg no-underline" onClick={()=> {
-                            setIsOpen(false);
-                            logout()}}>Log out</button>
+                        hover:text-white rounded-lg no-underline" onClick={handleLogOut}>Log out</button>
                         </div>
                     )}
                 </main>

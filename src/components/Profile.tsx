@@ -5,53 +5,54 @@ import UserData from "../interfaces/userData";
 import ProfilePicture from "./ProfilePicture";
 
 function Profile() {
-    const [user, setUser] = useState<UserData>();
+    const [user, setUser] = useState<UserData | null>();
     const [username, setUsername] = useState(user?.username);
     const [fullName, setFullName] = useState(user?.fullName);
     const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth);
     const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
-    const [profilePicture, setProfilePicture] = useState(user?.profilePicture);
-    const [selectedProfilePicture, setSelectedProfilePicture] = useState<string | null>(null);
+    const [selectedProfilePicture, setSelectedProfilePicture] = useState<Blob | null>(null);
     const [editingProfile, setEditingProfile] = useState(false);
     const [editingProfilePicture, setEditingProfilePicture] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const {logout} = useContext(AuthContext);
+    const {userData, setUserData, logout} = useContext(AuthContext);
     const axios = useContext(HttpContext);
 
     useEffect(() => {
-        axios.get('user')
-            .then((response) => {
-                setUser(response.data);
-            });
-    }, [axios]);
+        if(userData) {
+            setUser(userData);
+        }
+    }, [axios, userData]);
 
     useEffect(() => {
         setUsername(user?.username);
         setFullName(user?.fullName);
         setDateOfBirth(user?.dateOfBirth);
         setPhoneNumber(user?.phoneNumber);
-        setProfilePicture(user?.profilePicture);
     }, [user]);
 
     function profilePictureUpload(files: FileList | null) {
         if ( files && files.length > 0) {
-            setProfilePicture(pic => URL.createObjectURL(files[0]));
+            setSelectedProfilePicture(pic => files[0]);
         }
-        setEditingProfilePicture(editing => !editing);
+        setEditingProfilePicture(editing => true);
     }
 
     function cancelProfilePictureEditing() {
-        setEditingProfilePicture(editing => !editing);
-        setProfilePicture(user?.profilePicture);
+        setEditingProfilePicture(editing => false);
+        setSelectedProfilePicture(null);
     }
 
     function saveProfilePicture() {
         const formData = new FormData();
-        formData.append('profilePicture', profilePicture as string);
+        formData.append('profilePicture', selectedProfilePicture as Blob);
         axios.put('user/profilepicture', formData)
-            .then(() => {
-                setEditingProfilePicture(editing => !editing);
+            .then((response) => {
+                if (user) {
+                    console.log(response.data)
+                    setUserData({...user, profilePicture: response.data.profilePicture});
+                }
+                cancelProfilePictureEditing();
             })
             .catch((error) => {
                 if (error.response) {
@@ -88,7 +89,7 @@ function Profile() {
     return (
         <div>
             <ProfilePicture
-                profilePicture={editingProfilePicture ? profilePicture as string : `data:image/png;base64, ${profilePicture}`}
+                selectedProfilePicture={selectedProfilePicture}
                 profilePictureUpload={profilePictureUpload} />
 
             {editingProfilePicture && <button onClick={saveProfilePicture}>Save</button>}
@@ -126,7 +127,6 @@ function Profile() {
                         <input
                             type="date"
                             value={dateOfBirth?.toDateString()}
-
                         />
                     }
                 </label>
