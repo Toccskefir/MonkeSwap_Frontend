@@ -1,7 +1,7 @@
 import default_profile_pic from "../assets/default_profile_pic.png";
 import React, {useContext, useEffect, useState} from "react";
 import {FiUpload} from "react-icons/fi";
-import {AuthContext} from "../contexts/AuthContext";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 interface ProfilePictureProps {
     selectedProfilePicture: Blob | null,
@@ -9,7 +9,7 @@ interface ProfilePictureProps {
 }
 
 function ProfilePicture(props: ProfilePictureProps) {
-    const {userData} = useContext(AuthContext);
+    const {userData} = useContext(UserDataContext);
     const [profilePicture, setProfilePicture] = useState(userData?.profilePicture);
 
     useEffect(() => {

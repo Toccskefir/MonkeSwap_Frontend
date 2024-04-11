@@ -3,10 +3,12 @@ import {AuthContext} from "../contexts/AuthContext";
 import {HttpContext} from "../providers/HttpProvider";
 import UserData from "../interfaces/userData";
 import ProfilePicture from "./ProfilePicture";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 function Profile() {
-    const {userData, setUserData, logout} = useContext(AuthContext);
+    const {logout} = useContext(AuthContext);
     const axios = useContext(HttpContext);
+    const {userData, setUserData} = useContext(UserDataContext);
 
     const [user, setUser] = useState<UserData | null>();
     const [username, setUsername] = useState(user?.username);

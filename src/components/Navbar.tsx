@@ -6,9 +6,11 @@ import {FiMenu} from "react-icons/fi";
 import {FaBell} from "react-icons/fa";
 import {IoCloseOutline} from "react-icons/io5";
 import clsx from "clsx";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 function Navbar() {
-    const {token, userData, logout} = useContext(AuthContext);
+    const {token, logout} = useContext(AuthContext);
+    const {userData} = useContext(UserDataContext);
 
     const [isSideMenuOpen, setMenu] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
