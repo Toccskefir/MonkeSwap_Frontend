@@ -3,6 +3,7 @@ import {AuthContext} from "../contexts/AuthContext";
 import LoginData from "../interfaces/loginData";
 import {useNavigate} from "react-router-dom";
 import {HttpContext} from "./HttpProvider";
+import UserData from "../interfaces/userData";
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -10,17 +11,32 @@ interface AuthProviderProps {
 
 function AuthProvider ({children}: AuthProviderProps) {
     const [token, setToken] = useState(localStorage.getItem('accessToken') || null);
+    const [userData, setUserData] = useState<UserData | null>(null);
 
     const navigate = useNavigate();
 
     const axios = useContext(HttpContext);
 
+    async function getUserData(token: string) {
+        await axios.get('user', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+            .then((response) => {
+                console.log(response.data.profilePicture)
+                setUserData(response.data);
+            });
+    }
+
     async function login(user: LoginData) {
         await axios.post('http://localhost:3000/auth/login', {email: user.email, password: user.password},
             {headers: { Authorization: ''}} )
             .then((response) => {
-                setToken(response.data.token);
-                localStorage.setItem('accessToken', response.data.token);
+                const token = response.data.token
+                setToken(token);
+                localStorage.setItem('accessToken', token);
+                getUserData(token);
                 navigate('/');
             })
             .catch((error) => {
@@ -28,7 +44,6 @@ function AuthProvider ({children}: AuthProviderProps) {
                     throw new Error(error.response.data);
                 }
             });
-
     }
 
     function logout() {
@@ -38,7 +53,7 @@ function AuthProvider ({children}: AuthProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{token, login, logout}}>
+        <AuthContext.Provider value={{token, userData, setUserData, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
