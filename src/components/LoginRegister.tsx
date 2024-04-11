@@ -10,7 +10,7 @@ function LoginRegister() {
     const [acceptTerms, setAcceptTerms] = useState(false);
     const [isAdult, setIsAdult] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-//true means login, false means register
+    //true means login, false means register
     const [action, setAction] = useState(true);
 
     const {login} = useContext(AuthContext);
@@ -56,20 +56,23 @@ function LoginRegister() {
     }
 
     return (
-        <div className="flex w-full h-screen">
+        <div className="flex w-full h-screen font-poppins">
             <div className="w-full flex items-center justify-center lg:w-1/2 bg-gray-100">
                 <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-200">
 
-                    <h1 className="text-5xl font-semibold">{action ? "Login" : "Account creation"}</h1>
-                    <p className="font-medium text-lg text-gray-500 mt-4">Welcome back! Please enter your details!</p>
+                    {action ? <div><h1 className="text-5xl font-semibold">Login</h1>
+                        <p className="font-medium text-lg text-gray-500 mt-4">Welcome back! Please enter your details!</p>
+                        </div>
+                        :
+                        <h1 className="text-5xl font-semibold">Sign up</h1>}
 
                     <form onSubmit={handleSubmitEvent}>
                         <div className="mt-8">
-                            <label className="text-lg font-medium">
+                            <label className="font-medium">
                                 Email
                                 <input
                                     type="text"
-                                    className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                                    className="w-full border-2 border-gray-100 rounded-xl pr-28 pt-3 pb-3 pl-3 mt-1 bg-transparent"
                                     placeholder="monke@swap.com"
                                     value={email}
                                     onChange={event => setEmail(event.target.value)}
@@ -92,13 +95,13 @@ function LoginRegister() {
                             </div>
                         }
 
-                        <div className="">
-                            <label className="text-lg font-medium">
+                        <div className="mt-3">
+                            <label className="font-medium">
                                 Password
                                 <input
                                     type="password"
-                                    className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
-                                    placeholder="Password"
+                                    className="w-full border-2 border-gray-100 rounded-xl pr-20 pt-3 pb-3 pl-3 mt-1 bg-transparent"
+                                    placeholder="**********"
                                     value={password}
                                     onChange={event => setPassword(event.target.value)}
                                 />
@@ -143,7 +146,7 @@ function LoginRegister() {
                             </>
                         }
 
-                        <p>{errorMessage}</p>
+                        <p className="pt-3 pl-1 text-red-600 font-medium">{errorMessage}</p>
 
                         {action ?
                             <div className="mt-8 flex flex-col gap-y-4">
@@ -177,8 +180,9 @@ function LoginRegister() {
 
                 </div>
             </div>
-            <div className="hidden lg:flex h-full w-1/2 items-center justify-center bg-primary-yellow">
-                <img alt="asd" src="https://i.imgur.com/dWypbxr.png" className="w-60 h-60 "/>
+            <div className="hidden lg:flex lg:flex-col h-full items-center w-1/2 justify-center bg-primary-yellow">
+                <div><p className="text-6xl flex-wrap font-bold">MonkeSwap&trade;</p></div>
+                <div><img alt="asd" src="https://i.imgur.com/dWypbxr.png" className="w-60 h-60 animate-bounce"/></div>
             </div>
         </div>
     )
