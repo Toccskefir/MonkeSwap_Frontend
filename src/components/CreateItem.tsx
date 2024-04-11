@@ -5,13 +5,18 @@ import ItemCard from "./ItemCard";
 import basic_item_card_pic from "../assets/basic_item_card_pic.jpg";
 import {HttpContext} from "../providers/HttpProvider";
 import categoryList from "../constants/categoryList";
+import ItemCardData from "../interfaces/itemCardData";
 
-function CreateItem() {
+interface CreateItemProps {
+    itemToEdit?: ItemCardData,
+}
+
+function CreateItem(props: CreateItemProps) {
     const [itemPicture, setItemPicture] = useState<Blob | null>(null);
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('OTHER');
-    const [priceTier, setPriceTier] = useState(1);
+    const [title, setTitle] = useState(props.itemToEdit ? props.itemToEdit.title : '')
+    const [description, setDescription] = useState(props.itemToEdit ? props.itemToEdit.description : '');
+    const [category, setCategory] = useState(props.itemToEdit ? props.itemToEdit.category : 'OTHER');
+    const [priceTier, setPriceTier] = useState(props.itemToEdit ? props.itemToEdit.priceTier : 1);
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
@@ -26,7 +31,7 @@ function CreateItem() {
             formData.append('itemPicture', itemPicture);
         }
         formData.append('description', description);
-        formData.append('category', category);
+        formData.append('category', category as string);
         formData.append('priceTier', priceTier.toString());
 
         await axios.post('item', formData)
@@ -43,6 +48,10 @@ function CreateItem() {
         if ( files && files.length > 0) {
             setItemPicture(data => files[0]);
         }
+    }
+
+    function handleClose() {
+        navigate('/inventory');
     }
 
     return(
@@ -111,14 +120,18 @@ function CreateItem() {
                 </div>
 
                 <p>{errorMessage}</p>
-                <button type="submit">Create</button>
+                <button type="submit">{itemPicture ? "Save changes" : "Create"}</button>
+                {itemPicture ? <button onClick={handleClose}>Close</button> : null}
             </form>
 
             <ItemCard
-                title={title.trim() === '' ? 'Golden monkey' : title}
-                itemPicture={itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic}
-                description={description.trim() === '' ? 'A monkey made of gold...' : description}
-                priceTier={priceTier}
+                item={{
+                    title: title.trim() === '' ? 'Golden monkey' : title,
+                    itemPicture: itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic,
+                    description: description.trim() === '' ? 'A monkey made of gold...' : description,
+                    priceTier: priceTier,
+                }}
+                buttonText="Example"
             />
         </>
     );
