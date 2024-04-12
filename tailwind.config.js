@@ -12,9 +12,6 @@ module.exports = {
         primary: {
           yellow: 'hsl(56, 100%, 50%)'
         },
-            spacing: {
-              '85px' : '85px',
-        },
       },
     },
   },

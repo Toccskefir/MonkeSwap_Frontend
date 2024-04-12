@@ -5,3 +5,6 @@
 html{
     background-color: hsl(56, 100%, 50%);
 }
+.padding_right_4_75_rem{
+    padding-right: 4.75rem;
+}
