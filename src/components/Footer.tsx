@@ -6,6 +6,13 @@ import {Link} from "react-router-dom";
 function Footer() {
     const {token} = useContext(AuthContext);
 
+    function scrollToTop(): void {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
     return(
         <>
             {!token ? null :
@@ -30,11 +37,11 @@ function Footer() {
                         <div className="flex flex-col gap-4 max-md:mr-20">
                             <h2 className="text-3xl text-yellow-900">Profile</h2>
                             <Link to="/profile" className="lg:block w-2 text-yellow-900
-                         hover:text-black transition-all duration-150 no-underline font-semibold">
+                         hover:text-black transition-all duration-150 no-underline font-semibold" onClick={scrollToTop}>
                                 Profile
                             </Link>
                             <Link to="/notifications" className="lg:block w-2 text-yellow-900
-                         hover:text-black transition-all duration-150 no-underline font-semibold">
+                         hover:text-black transition-all duration-150 no-underline font-semibold" onClick={scrollToTop}>
                                 Notifications
                             </Link>
                         </div>
@@ -42,15 +49,15 @@ function Footer() {
                         <div className="flex flex-col gap-4 max-md:mr-12">
                             <h2 className="text-3xl text-yellow-900">Items</h2>
                             <Link to="/tradeoffers" className="lg:block w-28 text-yellow-900
-                         hover:text-black transition-all duration-150 no-underline font-semibold">
+                         hover:text-black transition-all duration-150 no-underline font-semibold" onClick={scrollToTop}>
                                 Trade Offers
                             </Link>
                             <Link to="/createitem" className="lg:block w-24 text-yellow-900
-                         hover:text-black transition-all duration-150 no-underline font-semibold">
+                         hover:text-black transition-all duration-150 no-underline font-semibold" onClick={scrollToTop}>
                                 Create Item
                             </Link>
                             <Link to="/inventory" className="lg:block w-2 text-yellow-900
-                         hover:text-black transition-all duration-150 no-underline font-semibold">
+                         hover:text-black transition-all duration-150 no-underline font-semibold" onClick={scrollToTop}>
                                 Inventory
                             </Link>
                         </div>
