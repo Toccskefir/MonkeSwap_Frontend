@@ -1,5 +1,5 @@
 import default_profile_pic from "../assets/default_profile_pic.png";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../contexts/AuthContext";
 import {Link} from 'react-router-dom'
 import {FiMenu} from "react-icons/fi";
@@ -92,7 +92,8 @@ function Navbar() {
                                     onClick={()=> setIsOpen(prev => !prev)}>
                                 <img className="h-12 w-12 max-sm:h-8 max-sm:w-8 rounded-full cursor-pointer"
                                      src={profilePicture ? `data:image/png;base64, ${profilePicture}` : default_profile_pic}
-                                     alt="avatar-img"/>
+                                     alt="avatar-img"
+                                     />
                             </button>
                         </section>
                     </nav>
