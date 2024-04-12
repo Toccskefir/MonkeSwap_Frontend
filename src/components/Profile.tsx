@@ -38,13 +38,13 @@ function Profile() {
 
     function profilePictureUpload(files: FileList | null) {
         if ( files && files.length > 0) {
-            setSelectedProfilePicture(pic => files[0]);
+            setSelectedProfilePicture(files[0]);
         }
-        setEditingProfilePicture(editing => true);
+        setEditingProfilePicture(true);
     }
 
     function cancelProfilePictureEditing() {
-        setEditingProfilePicture(editing => false);
+        setEditingProfilePicture(false);
         setSelectedProfilePicture(null);
     }
 
@@ -110,88 +110,101 @@ function Profile() {
     }
 
     return (
-        <div>
-            <ProfilePicture
-                selectedProfilePicture={selectedProfilePicture}
-                profilePictureUpload={profilePictureUpload} />
+        <div className="flex flex-col w-full font-poppins overflow-hidden columns-3">
+            <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
+            <div className="w-full flex">
+                <div className="w-1/3">
+                <ProfilePicture
+                    selectedProfilePicture={selectedProfilePicture}
+                    profilePictureUpload={profilePictureUpload}/>
 
-            {editingProfilePicture && <button onClick={saveProfilePicture}>Save</button>}
-            {editingProfilePicture && <button onClick={cancelProfilePictureEditing}>Cancel</button>}
+                {editingProfilePicture && <button onClick={saveProfilePicture}>Save</button>}
+                {editingProfilePicture && <button onClick={cancelProfilePictureEditing}>Cancel</button>}
+                </div>
 
-            <form onSubmit={handleSubmitEvent}>
-                <label>
-                    Username
-                    {!editingProfile ?
-                        <p>{username}</p> :
+                <div className="w-1/3">
+                    <form onSubmit={handleSubmitEvent} className="flex flex-col">
+                        <label className="font-medium">
+                            Username
+                            {!editingProfile ?
+                                <p className="font-normal">{username}</p> :
+                                <input
+                                    type="text"
+                                    placeholder="Monke"
+                                    value={username}
+                                    onChange={event => setUsername(event.target.value)}
+                                />
+                            }
+                        </label>
+                        <label className="font-medium">
+                            Full Name
+                            {!editingProfile ?
+                                <p className="font-normal">{fullName}</p> :
+                                <input
+                                    type="text"
+                                    placeholder="No full name yet"
+                                    value={fullName}
+                                    onChange={event => setFullName(event.target.value)}
+                                />
+                            }
+                        </label>
+                        <label className="font-medium">
+                            Date of birth
+                            {!editingProfile ?
+                                <p className="font-normal">{dateOfBirth?.toDateString()}</p> :
+                                <input
+                                    type="date"
+                                    value={dateOfBirth?.toDateString()}
+                                />
+                            }
+                        </label>
+                        <label className="font-medium">
+                            Phone number
+                            {!editingProfile ?
+                                <p className="font-normal">{phoneNumber}</p> :
+                                <input
+                                    type="text"
+                                    placeholder="No phone number yet"
+                                    value={phoneNumber}
+                                    onChange={event => setPhoneNumber(event.target.value)}
+                                />
+                            }
+                        </label>
+                        <p>{errorMessage}</p>
+                        <button type="submit">{editingProfile ? 'Save changes' : ''}</button>
+                    </form>
+                    <button onClick={handleProfileEditing} className="text-left">{editingProfile ? 'Back' : 'Edit profile'}</button>
+                </div>
+
+                <div className="w-1/3">
+                    <form onSubmit={handlePasswordSubmitEvent} className="flex flex-col">
+                    <label className="font-medium">
+                        New password
                         <input
-                            type="text"
-                            placeholder="Monke"
-                            value={username}
-                            onChange={event => setUsername(event.target.value)}
+                            className="font-normal"
+                            type="password"
+                            placeholder="********"
+                            value={newPassword}
+                            onChange={event => setNewPassword(event.target.value)}
                         />
-                    }
-                </label>
-                <label>
-                    Full Name
-                    {!editingProfile ?
-                        <p>{fullName}</p> :
+                    </label>
+                    <label className="font-medium">
+                        Confirm new password
                         <input
-                            type="text"
-                            placeholder="No full name yet"
-                            value={fullName}
-                            onChange={event => setFullName(event.target.value)}
+                            className="font-normal"
+                            type="password"
+                            placeholder="********"
+                            value={newPasswordAgain}
+                            onChange={event => setNewPasswordAgain(event.target.value)}
                         />
-                    }
-                </label>
-                <label>
-                    Date of birth
-                    {!editingProfile ?
-                        <p>{dateOfBirth?.toDateString()}</p> :
-                        <input
-                            type="date"
-                            value={dateOfBirth?.toDateString()}
-                        />
-                    }
-                </label>
-                <label>
-                    Phone number
-                    {!editingProfile ?
-                        <p>{phoneNumber}</p> :
-                        <input
-                            type="text"
-                            placeholder="No phone number yet"
-                            value={phoneNumber}
-                            onChange={event => setPhoneNumber(event.target.value)}
-                        />
-                    }
-                </label>
-                <p>{errorMessage}</p>
-                <button type="submit">{editingProfile ? 'Save changes' : ''}</button>
-            </form>
-            <button onClick={handleProfileEditing}>{editingProfile ? 'Back' : 'Edit profile'}</button>
-            <form onSubmit={handlePasswordSubmitEvent}>
-                <label>
-                    New password
-                    <input
-                        type="password"
-                        placeholder="********"
-                        value={newPassword}
-                        onChange={event => setNewPassword(event.target.value)}
-                    />
-                </label>
-                <label>
-                    Confirm new password
-                    <input
-                        type="password"
-                        placeholder="********"
-                        value={newPasswordAgain}
-                        onChange={event => setNewPasswordAgain(event.target.value)}
-                    />
-                </label>
-                <p>{errorMessagePassword}</p>
-                <button type="submit">Save new password</button>
-            </form>
-            <button onClick={userDelete}>Delete user</button>
+                    </label>
+                    <p>{errorMessagePassword}</p>
+                    <button type="submit">Save new password</button>
+                    <button onClick={userDelete}>Delete user</button>
+                </form>
+            </div>
+        </div>
+            </div>
         </div>
     );
 }
