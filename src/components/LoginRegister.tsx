@@ -149,7 +149,7 @@ function LoginRegister() {
                             </>
                         }
 
-                        <p className="pt-3 pl-1 text-red-600 font-medium ">{errorMessage}</p>
+                        <p className="pt-3 pl-1 text-red-600 font-medium">{errorMessage}</p>
 
                         {action ?
                             <div className="mt-6 flex flex-col gap-y-4">

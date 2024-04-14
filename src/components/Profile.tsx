@@ -67,6 +67,7 @@ function Profile() {
 
     function handleProfileEditing() {
         setEditingProfile(editing => !editing);
+        setErrorMessage('');
     }
 
     async function userDelete() {
@@ -93,14 +94,14 @@ function Profile() {
     function handlePasswordSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (newPassword !== newPasswordAgain) {
-            setErrorMessage('Passwords must match');
+            setErrorMessagePassword('Passwords must match');
             return;
         }
         axios.put('user/password', {password: newPassword})
             .then(() => {
                 setNewPassword('');
                 setNewPasswordAgain('');
-                setErrorMessagePassword('Password changed');
+                setErrorMessagePassword('Password changed!');
             })
             .catch((error) => {
                 if (error.response) {
@@ -113,94 +114,105 @@ function Profile() {
         <div className="flex flex-col w-full font-poppins overflow-hidden columns-3">
             <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
             <div className="w-full flex">
-                <div className="w-1/3">
+                <div className="w-1/3 flex-col text-center">
                 <ProfilePicture
                     selectedProfilePicture={selectedProfilePicture}
                     profilePictureUpload={profilePictureUpload}/>
 
-                {editingProfilePicture && <button onClick={saveProfilePicture}>Save</button>}
-                {editingProfilePicture && <button onClick={cancelProfilePictureEditing}>Cancel</button>}
+                {editingProfilePicture && <button onClick={saveProfilePicture} className="mt-72 mr-2 w-20 py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold col-span-2">Save</button>}
+                {editingProfilePicture && <button onClick={cancelProfilePictureEditing} className="w-20 py-2 rounded-xl bg-white
+                    text-yellow-900 text-lg font-bold col-span-2">Cancel</button>}
                 </div>
 
                 <div className="w-1/3">
                     <form onSubmit={handleSubmitEvent} className="flex flex-col">
-                        <label className="font-medium">
+                        <label className="font-semibold flex flex-col">
                             Username
+                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{username}</p> :
                                 <input
                                     type="text"
                                     placeholder="Monke"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
                                     value={username}
                                     onChange={event => setUsername(event.target.value)}
                                 />
                             }
-                        </label>
-                        <label className="font-medium">
+                        <label className="font-semibold flex flex-col">
                             Full Name
+                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{fullName}</p> :
                                 <input
                                     type="text"
                                     placeholder="No full name yet"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
                                     value={fullName}
                                     onChange={event => setFullName(event.target.value)}
                                 />
                             }
-                        </label>
-                        <label className="font-medium">
+                        <label className="font-semibold flex flex-col">
                             Date of birth
+                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{dateOfBirth?.toDateString()}</p> :
                                 <input
                                     type="date"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
                                     value={dateOfBirth?.toDateString()}
                                 />
                             }
-                        </label>
-                        <label className="font-medium">
+                        <label className="font-semibold flex flex-col">
                             Phone number
+                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{phoneNumber}</p> :
                                 <input
                                     type="text"
                                     placeholder="No phone number yet"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
                                     value={phoneNumber}
                                     onChange={event => setPhoneNumber(event.target.value)}
                                 />
                             }
-                        </label>
-                        <p>{errorMessage}</p>
-                        <button type="submit">{editingProfile ? 'Save changes' : ''}</button>
+                        <p className="text-red-600 font-medium">{errorMessage}</p>
+                        {editingProfile ? <button type="submit" className="py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold w-full col-span-2">Save changes</button> : ''}
                     </form>
-                    <button onClick={handleProfileEditing} className="text-left">{editingProfile ? 'Back' : 'Edit profile'}</button>
+                    {editingProfile ? <button className="py-2 mt-3 rounded-xl bg-white
+                    text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Cancel</button> : <button className="py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Edit profile</button>}
                 </div>
 
                 <div className="w-1/3">
                     <form onSubmit={handlePasswordSubmitEvent} className="flex flex-col">
-                    <label className="font-medium">
+                    <label className="font-semibold flex flex-col">
                         New password
+                    </label>
                         <input
-                            className="font-normal"
+                            className="mb-3 pl-1 w-80 border-2 border-black"
                             type="password"
                             placeholder="********"
                             value={newPassword}
                             onChange={event => setNewPassword(event.target.value)}
                         />
-                    </label>
-                    <label className="font-medium">
+                    <label className="font-semibold flex flex-col">
                         Confirm new password
+                    </label>
                         <input
-                            className="font-normal"
+                            className="mb-3 pl-1 w-80 border-2 border-black"
                             type="password"
                             placeholder="********"
                             value={newPasswordAgain}
                             onChange={event => setNewPasswordAgain(event.target.value)}
                         />
-                    </label>
-                    <p>{errorMessagePassword}</p>
-                    <button type="submit">Save new password</button>
-                    <button onClick={userDelete}>Delete user</button>
+                    <p className="text-red-600 font-medium">{errorMessagePassword}</p>
+                    <button type="submit" className="w-50 py-2 ml-12 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold col-span-2">Save new password</button>
+                    <button onClick={userDelete} className="w-50 mt-3 py-2 ml-12 rounded-xl bg-red-600
+                    text-yellow-900 text-lg font-bold col-span-2">Delete user</button>
                 </form>
             </div>
         </div>
