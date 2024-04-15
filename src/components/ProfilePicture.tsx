@@ -34,7 +34,7 @@ function ProfilePicture(props: ProfilePictureProps) {
                      src={profilePictureSelector()}
                      alt="Profile picture"/>
                 <label
-                    className="w-64 h-64 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+                    className="w-64 h-64 group hover:bg-gray-200 opacity-60 rounded-full flex justify-center absolute items-center cursor-pointer transition duration-500">
                     <FiUpload className="hidden group-hover:block w-12 h-12"/>
                     <input
                         style={{display: 'none'}}
