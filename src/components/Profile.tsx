@@ -4,6 +4,8 @@ import {HttpContext} from "../providers/HttpProvider";
 import UserData from "../interfaces/userData";
 import ProfilePicture from "./ProfilePicture";
 import {UserDataContext} from "../contexts/UserDataContext";
+import {FaUserSlash} from "react-icons/fa";
+import Modal from "./Modal";
 
 function Profile() {
     const {logout} = useContext(AuthContext);
@@ -22,6 +24,7 @@ function Profile() {
     const [editingProfilePicture, setEditingProfilePicture] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorMessagePassword, setErrorMessagePassword] = useState('');
+    const [open, setOpenModal] =useState<boolean>(false);
 
     useEffect(() => {
         if(userData) {
@@ -71,6 +74,7 @@ function Profile() {
     }
 
     async function userDelete() {
+
         await axios.delete('user')
             .then(() => {
                 logout();
@@ -119,9 +123,11 @@ function Profile() {
                     selectedProfilePicture={selectedProfilePicture}
                     profilePictureUpload={profilePictureUpload}/>
 
-                {editingProfilePicture && <button onClick={saveProfilePicture} className="mt-72 mr-2 w-20 py-2 rounded-xl bg-primary-yellow
+                {editingProfilePicture && <button onClick={saveProfilePicture} className="active:scale-[.98] active:duration-75
+                                    hover:scale-[1.01] ease-in-out transition-all mt-72 mr-2 w-20 py-2 rounded-xl bg-primary-yellow
                     text-yellow-900 text-lg font-bold col-span-2">Save</button>}
-                {editingProfilePicture && <button onClick={cancelProfilePictureEditing} className="w-20 py-2 rounded-xl bg-white
+                {editingProfilePicture && <button onClick={cancelProfilePictureEditing} className="active:scale-[.98] active:duration-75
+                                    hover:scale-[1.01] ease-in-out transition-all w-20 py-2 rounded-xl bg-white
                     text-yellow-900 text-lg font-bold col-span-2">Cancel</button>}
                 </div>
 
@@ -178,19 +184,24 @@ function Profile() {
                                 />
                             }
                         <p className="text-red-600 font-medium">{errorMessage}</p>
-                        {editingProfile ? <button type="submit" className="py-2 rounded-xl bg-primary-yellow
+                        {editingProfile ? <button type="submit" className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 rounded-xl bg-primary-yellow
                     text-yellow-900 text-lg font-bold w-full col-span-2">Save changes</button> : ''}
                     </form>
-                    {editingProfile ? <button className="py-2 mt-3 rounded-xl bg-white
-                    text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Cancel</button> : <button className="py-2 rounded-xl bg-primary-yellow
+                    {editingProfile ? <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 mt-3 rounded-xl bg-white
+                    text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Cancel</button>
+                        :
+                        <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 rounded-xl bg-primary-yellow
                     text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Edit profile</button>}
                 </div>
 
                 <div className="w-1/3">
-                    <form onSubmit={handlePasswordSubmitEvent} className="flex flex-col">
-                    <label className="font-semibold flex flex-col">
-                        New password
-                    </label>
+                    <form onSubmit={handlePasswordSubmitEvent} className="flex flex-col ml-20">
+                        <label className="font-semibold flex flex-col text-left">
+                            New password
+                        </label>
                         <input
                             className="mb-3 pl-1 w-80 border-2 border-black"
                             type="password"
@@ -198,9 +209,9 @@ function Profile() {
                             value={newPassword}
                             onChange={event => setNewPassword(event.target.value)}
                         />
-                    <label className="font-semibold flex flex-col">
-                        Confirm new password
-                    </label>
+                        <label className="font-semibold flex flex-col text-left">
+                            Confirm new password
+                        </label>
                         <input
                             className="mb-3 pl-1 w-80 border-2 border-black"
                             type="password"
@@ -208,14 +219,41 @@ function Profile() {
                             value={newPasswordAgain}
                             onChange={event => setNewPasswordAgain(event.target.value)}
                         />
-                    <p className="text-red-600 font-medium">{errorMessagePassword}</p>
-                    <button type="submit" className="w-50 py-2 ml-12 rounded-xl bg-primary-yellow
-                    text-yellow-900 text-lg font-bold col-span-2">Save new password</button>
-                    <button onClick={userDelete} className="w-50 mt-3 py-2 ml-12 rounded-xl bg-red-600
-                    text-yellow-900 text-lg font-bold col-span-2">Delete user</button>
-                </form>
+                        <p className="text-red-600 font-medium">{errorMessagePassword}</p>
+                        <button type="submit" className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 py-2 ml-12 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold">Save new password
+                        </button>
+                    </form>
+                    <button onClick={() => setOpenModal(true)} className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 mt-3 py-2 ml-32 rounded-xl bg-red-600
+                    text-white text-lg font-bold">Delete user
+                    </button>
+                    <Modal open={open} onClose={() => setOpenModal(false)}>
+                        <div className="text-center w-56">
+                            <FaUserSlash size={56} className="mx-auto text-red-500" />
+                            <div className="mx-auto my-4 w-48">
+                                <h3 className="text-lg font-black text-gray-800">Confirm Delete</h3>
+                                <p className="text-sm text-gray-500">
+                                    Are you sure you want to delete your account?
+                                </p>
+                            </div>
+                            <div className="flex gap-4 font-semibold">
+                                <button className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all rounded-xl bg-red-600 w-full py-2 text-white"
+                                onClick={userDelete}>Delete</button>
+                                <button
+                                    className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out w-full py-2 text-yellow-900"
+                                    onClick={() => setOpenModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
             </div>
-        </div>
             </div>
         </div>
     );
