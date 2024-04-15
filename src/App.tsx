@@ -15,6 +15,7 @@ import HttpProvider from "./providers/HttpProvider";
 import Inventory from "./components/Inventory";
 import Footer from "./components/Footer";
 import UserDataProvider from "./providers/UserDataProvider";
+import UpdateItem from "./components/UpdateItem";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                               <Route path="/notifications" element={<Notifications />}/>
                               <Route path="/tradeoffers" element={<TradeOffers />}/>
                               <Route path="/createitem" element={<CreateItem />}/>
+                              <Route path="/updateitem/:itemId" element={<UpdateItem />}/>
                               <Route path="/inventory" element={<Inventory />}/>
                               <Route path="/profile" element={<Profile />}/>
                           </Route>
