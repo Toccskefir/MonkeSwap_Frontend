@@ -4,6 +4,8 @@ import {HttpContext} from "../providers/HttpProvider";
 import UserData from "../interfaces/userData";
 import ProfilePicture from "./ProfilePicture";
 import {UserDataContext} from "../contexts/UserDataContext";
+import {FaUserSlash} from "react-icons/fa";
+import Modal from "./Modal";
 
 function Profile() {
     const {logout} = useContext(AuthContext);
@@ -22,6 +24,7 @@ function Profile() {
     const [editingProfilePicture, setEditingProfilePicture] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorMessagePassword, setErrorMessagePassword] = useState('');
+    const [open, setOpenModal] =useState<boolean>(false);
 
     useEffect(() => {
         if(userData) {
@@ -38,13 +41,13 @@ function Profile() {
 
     function profilePictureUpload(files: FileList | null) {
         if ( files && files.length > 0) {
-            setSelectedProfilePicture(pic => files[0]);
+            setSelectedProfilePicture(files[0]);
         }
-        setEditingProfilePicture(editing => true);
+        setEditingProfilePicture(true);
     }
 
     function cancelProfilePictureEditing() {
-        setEditingProfilePicture(editing => false);
+        setEditingProfilePicture(false);
         setSelectedProfilePicture(null);
     }
 
@@ -67,9 +70,11 @@ function Profile() {
 
     function handleProfileEditing() {
         setEditingProfile(editing => !editing);
+        setErrorMessage('');
     }
 
     async function userDelete() {
+
         await axios.delete('user')
             .then(() => {
                 logout();
@@ -93,14 +98,14 @@ function Profile() {
     function handlePasswordSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (newPassword !== newPasswordAgain) {
-            setErrorMessage('Passwords must match');
+            setErrorMessagePassword('Passwords must match');
             return;
         }
         axios.put('user/password', {password: newPassword})
             .then(() => {
                 setNewPassword('');
                 setNewPasswordAgain('');
-                setErrorMessagePassword('Password changed');
+                setErrorMessagePassword('Password changed!');
             })
             .catch((error) => {
                 if (error.response) {
@@ -110,88 +115,146 @@ function Profile() {
     }
 
     return (
-        <div>
-            <ProfilePicture
-                selectedProfilePicture={selectedProfilePicture}
-                profilePictureUpload={profilePictureUpload} />
+        <div className="flex flex-col w-full font-poppins overflow-hidden columns-3">
+            <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
+            <div className="w-full flex">
+                <div className="w-1/3 flex-col text-center">
+                <ProfilePicture
+                    selectedProfilePicture={selectedProfilePicture}
+                    profilePictureUpload={profilePictureUpload}/>
 
-            {editingProfilePicture && <button onClick={saveProfilePicture}>Save</button>}
-            {editingProfilePicture && <button onClick={cancelProfilePictureEditing}>Cancel</button>}
+                {editingProfilePicture && <button onClick={saveProfilePicture} className="active:scale-[.98] active:duration-75
+                                    hover:scale-[1.01] ease-in-out transition-all mt-72 mr-2 w-20 py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold col-span-2">Save</button>}
+                {editingProfilePicture && <button onClick={cancelProfilePictureEditing} className="active:scale-[.98] active:duration-75
+                                    hover:scale-[1.01] ease-in-out transition-all w-20 py-2 rounded-xl bg-white
+                    text-yellow-900 text-lg font-bold col-span-2">Cancel</button>}
+                </div>
 
-            <form onSubmit={handleSubmitEvent}>
-                <label>
-                    Username
-                    {!editingProfile ?
-                        <p>{username}</p> :
+                <div className="w-1/3">
+                    <form onSubmit={handleSubmitEvent} className="flex flex-col">
+                        <label className="font-semibold flex flex-col">
+                            Username
+                        </label>
+                            {!editingProfile ?
+                                <p className="font-normal">{username}</p> :
+                                <input
+                                    type="text"
+                                    placeholder="Monke"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    value={username}
+                                    onChange={event => setUsername(event.target.value)}
+                                />
+                            }
+                        <label className="font-semibold flex flex-col">
+                            Full Name
+                        </label>
+                            {!editingProfile ?
+                                <p className="font-normal">{fullName}</p> :
+                                <input
+                                    type="text"
+                                    placeholder="No full name yet"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    value={fullName}
+                                    onChange={event => setFullName(event.target.value)}
+                                />
+                            }
+                        <label className="font-semibold flex flex-col">
+                            Date of birth
+                        </label>
+                            {!editingProfile ?
+                                <p className="font-normal">{dateOfBirth?.toDateString()}</p> :
+                                <input
+                                    type="date"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    value={dateOfBirth?.toDateString()}
+                                />
+                            }
+                        <label className="font-semibold flex flex-col">
+                            Phone number
+                        </label>
+                            {!editingProfile ?
+                                <p className="font-normal">{phoneNumber}</p> :
+                                <input
+                                    type="text"
+                                    placeholder="No phone number yet"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    value={phoneNumber}
+                                    onChange={event => setPhoneNumber(event.target.value)}
+                                />
+                            }
+                        <p className="text-red-600 font-medium">{errorMessage}</p>
+                        {editingProfile ? <button type="submit" className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold w-full col-span-2">Save changes</button> : ''}
+                    </form>
+                    {editingProfile ? <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 mt-3 rounded-xl bg-white
+                    text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Cancel</button>
+                        :
+                        <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold w-full col-span-2" onClick={handleProfileEditing}>Edit profile</button>}
+                </div>
+
+                <div className="w-1/3">
+                    <form onSubmit={handlePasswordSubmitEvent} className="flex flex-col ml-20">
+                        <label className="font-semibold flex flex-col text-left">
+                            New password
+                        </label>
                         <input
-                            type="text"
-                            placeholder="Monke"
-                            value={username}
-                            onChange={event => setUsername(event.target.value)}
+                            className="mb-3 pl-1 w-80 border-2 border-black"
+                            type="password"
+                            placeholder="********"
+                            value={newPassword}
+                            onChange={event => setNewPassword(event.target.value)}
                         />
-                    }
-                </label>
-                <label>
-                    Full Name
-                    {!editingProfile ?
-                        <p>{fullName}</p> :
+                        <label className="font-semibold flex flex-col text-left">
+                            Confirm new password
+                        </label>
                         <input
-                            type="text"
-                            placeholder="No full name yet"
-                            value={fullName}
-                            onChange={event => setFullName(event.target.value)}
+                            className="mb-3 pl-1 w-80 border-2 border-black"
+                            type="password"
+                            placeholder="********"
+                            value={newPasswordAgain}
+                            onChange={event => setNewPasswordAgain(event.target.value)}
                         />
-                    }
-                </label>
-                <label>
-                    Date of birth
-                    {!editingProfile ?
-                        <p>{dateOfBirth?.toDateString()}</p> :
-                        <input
-                            type="date"
-                            value={dateOfBirth?.toDateString()}
-                        />
-                    }
-                </label>
-                <label>
-                    Phone number
-                    {!editingProfile ?
-                        <p>{phoneNumber}</p> :
-                        <input
-                            type="text"
-                            placeholder="No phone number yet"
-                            value={phoneNumber}
-                            onChange={event => setPhoneNumber(event.target.value)}
-                        />
-                    }
-                </label>
-                <p>{errorMessage}</p>
-                <button type="submit">{editingProfile ? 'Save changes' : ''}</button>
-            </form>
-            <button onClick={handleProfileEditing}>{editingProfile ? 'Back' : 'Edit profile'}</button>
-            <form onSubmit={handlePasswordSubmitEvent}>
-                <label>
-                    New password
-                    <input
-                        type="password"
-                        placeholder="********"
-                        value={newPassword}
-                        onChange={event => setNewPassword(event.target.value)}
-                    />
-                </label>
-                <label>
-                    Confirm new password
-                    <input
-                        type="password"
-                        placeholder="********"
-                        value={newPasswordAgain}
-                        onChange={event => setNewPasswordAgain(event.target.value)}
-                    />
-                </label>
-                <p>{errorMessagePassword}</p>
-                <button type="submit">Save new password</button>
-            </form>
-            <button onClick={userDelete}>Delete user</button>
+                        <p className="text-red-600 font-medium">{errorMessagePassword}</p>
+                        <button type="submit" className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 py-2 ml-12 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold">Save new password
+                        </button>
+                    </form>
+                    <button onClick={() => setOpenModal(true)} className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 mt-3 py-2 ml-32 rounded-xl bg-red-600
+                    text-white text-lg font-bold">Delete user
+                    </button>
+                    <Modal open={open} onClose={() => setOpenModal(false)}>
+                        <div className="text-center w-56">
+                            <FaUserSlash size={56} className="mx-auto text-red-500" />
+                            <div className="mx-auto my-4 w-48">
+                                <h3 className="text-lg font-black text-gray-800">Confirm Delete</h3>
+                                <p className="text-sm text-gray-500">
+                                    Are you sure you want to delete your account?
+                                </p>
+                            </div>
+                            <div className="flex gap-4 font-semibold">
+                                <button className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all rounded-xl bg-red-600 w-full py-2 text-white"
+                                onClick={userDelete}>Delete</button>
+                                <button
+                                    className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out w-full py-2 text-yellow-900"
+                                    onClick={() => setOpenModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
+            </div>
+            </div>
         </div>
     );
 }

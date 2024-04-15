@@ -9,7 +9,6 @@ function LoginRegister() {
     const [password, setPassword] = useState('');
     const [passwordAgain, setPasswordAgain] = useState('');
     const [acceptTerms, setAcceptTerms] = useState(false);
-    const [isAdult, setIsAdult] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     //true means login, false means register
     const [action, setAction] = useState(true);
@@ -30,8 +29,6 @@ function LoginRegister() {
         } else {
             if (password !== passwordAgain) {
                 setErrorMessage('Passwords must match');
-            } else if (!isAdult) {
-                setErrorMessage('You must be over the age of 18');
             } else if (!acceptTerms) {
                 setErrorMessage('You need to accept terms & conditions');
             } else {
@@ -66,7 +63,7 @@ function LoginRegister() {
                                 details!</p>
                         </div>
                         :
-                        <div><h1 className="text-5xl font-semibold">Sign up</h1>
+                        <div><h1 className="text-4xl font-semibold">Sign up</h1>
                         </div>}
 
                     <form onSubmit={handleSubmitEvent}>
@@ -126,16 +123,6 @@ function LoginRegister() {
                                         />
                                     </label>
                                 </div>
-                                <div className="form-check mt-3">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            className="form-check-input"
-                                            onChange={() => setIsAdult(isAdult => !isAdult)}
-                                        />
-                                        I am over the age of 18
-                                    </label>
-                                </div>
                                 <div className="form-check">
                                     <label>
                                         <input
@@ -149,20 +136,20 @@ function LoginRegister() {
                             </>
                         }
 
-                        <p className="pt-3 pl-1 text-red-600 font-medium ">{errorMessage}</p>
+                        <p className="pt-3 pl-1 text-red-600 font-medium">{errorMessage}</p>
 
                         {action ?
                             <div className="mt-6 flex flex-col gap-y-4">
                                 <button type="submit" className="active:scale-[.98] active:duration-75
                                     hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-primary-yellow
-                                    text-white text-lg font-bold">Sign in
+                                    text-yellow-900 text-lg font-bold">Sign in
                                 </button>
                             </div>
                             :
                             <div className="flex flex-col">
                             <button type="submit" className="active:scale-[.98] active:duration-75
                                     hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-primary-yellow
-                                    text-white text-lg font-bold">Sign up</button>
+                                    text-yellow-900 text-lg font-bold">Sign up</button>
                             </div>
                         }
                     </form>
@@ -174,18 +161,17 @@ function LoginRegister() {
                                 setAction(false);
                                 setFormToInitState();
                             }}
-                                    className="text-blue-700 text-base font-medium ml-2"
-                            >Sign up
+                            ><p className="text-blue-700 text-base font-medium ml-2 mt-3">Sign up</p>
                             </button>
                         </div>
                         :
                         <div className="mt-6 flex justify-center">
-                            <p className="font-medium text-base pt-3">Already have an account?</p>
+                            <p className="font-medium text-base pt-2">Already have an account?</p>
                             <button type="button" onClick={() => {
                                 setAction(true);
                                 setFormToInitState();
-                            }} className="text-blue-700 text-base font-medium ml-2"
-                            >Log in
+                            }}
+                            ><p className="text-blue-700 text-base font-medium ml-2 mt-2">Log in</p>
                             </button>
                         </div>
                     }
