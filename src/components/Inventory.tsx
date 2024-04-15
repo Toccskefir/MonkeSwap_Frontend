@@ -24,7 +24,7 @@ function Inventory() {
     }
 
     return(
-        <Grid container columns={{ xl: 15, lg: 12, md: 12, xs: 12 }}>
+        <Grid container columns={{ xl: 12, lg: 12, md: 12, xs: 12 }}>
             {itemList
                 .sort((itemA, itemB) => itemB.id - itemA.id)
                 .map((item) => (
