@@ -9,6 +9,7 @@ import ModalContent from "./ModalContent";
 interface TradeOfferProps {
     tradeOffer: TradeOfferData,
     type: 'INCOMING' | 'OFFERED',
+    onDelete: () => void,
 }
 
 function TradeOffer(props: TradeOfferProps) {
@@ -37,12 +38,18 @@ function TradeOffer(props: TradeOfferProps) {
     }
 
     function acceptOffer() {
-        axios.delete('tradeoffer/accept/' + props.tradeOffer.id);
+        axios.delete('tradeoffer/accept/' + props.tradeOffer.id)
+            .then(() => {
+                props.onDelete();
+            });
         handleModalClose();
     }
 
     function declineOffer() {
-        axios.delete('tradeoffer/decline/' + props.tradeOffer.id);
+        axios.delete('tradeoffer/decline/' + props.tradeOffer.id)
+            .then(() => {
+                props.onDelete();
+            });
         handleModalClose();
     }
 
