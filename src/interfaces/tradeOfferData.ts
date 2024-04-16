@@ -1,6 +1,6 @@
 export default interface TradeOfferData {
     id: number,
-    offeredItemId: number,
-    incomingItemId: number,
+    offeredItem: number,
+    incomingItem: number,
     comment: string,
 }
