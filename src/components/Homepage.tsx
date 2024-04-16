@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import ItemCard from "./ItemCard";
-import {Grid} from "@mui/material";
 import {HttpContext} from "../providers/HttpProvider";
 import categoryList from "../constants/categoryList";
 import ItemCardWithIdData from "../interfaces/itemCardWithIdData";
@@ -32,8 +31,8 @@ function Homepage() {
         }
     }
 
-    function handleButtonClick(itemId: number) {
-        axios.put('item/views/' + itemId)
+    function handleButtonClick(item: ItemCardWithIdData) {
+        axios.put('item/views/' + item.id)
             .then(() => {
 
             });
@@ -58,19 +57,18 @@ function Homepage() {
                     ))}
                 </select>
             </label>
-            <Grid container columns={{ xl: 15, lg: 12, md: 12, xs: 12 }}>
+            <div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 justify-center items-center place-items-center">
                 {itemList
                     .sort((itemA, itemB) => itemB.id - itemA.id)
                     .map((item) => (
-                    <Grid key={item.id} item xl={3} lg={3} md={4} xs={6}>
                         <ItemCard
                             item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
-                            onButtonClick={() => handleButtonClick(item.id)}
+                            onButtonClick={() => handleButtonClick(item)}
                             buttonText="View"
                         />
-                    </Grid>
-                ))}
-            </Grid>
+                    ))}
+            </div>
         </div>
 
     );

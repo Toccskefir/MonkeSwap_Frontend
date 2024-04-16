@@ -8,3 +8,25 @@ html{
 .padding_right_4_75_rem{
     padding-right: 4.75rem;
 }
+
+.h-card-backside{
+    height: 424px;
+}
+.h-card{
+    height: 400px;
+}
+.h-card-img{
+    height: 370px;
+}
+
+.w-card{
+    width: 300px;
+}
+.w-card-backside{
+    width: 320px;
+}
+
+.p-no-overflow{
+    max-width: 300px; /* Set the maximum width */
+    word-wrap: break-word; /* Enable line breaks within words */
+}
