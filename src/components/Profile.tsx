@@ -5,7 +5,8 @@ import UserData from "../interfaces/userData";
 import ProfilePicture from "./ProfilePicture";
 import {UserDataContext} from "../contexts/UserDataContext";
 import {FaUserSlash} from "react-icons/fa";
-import Modal from "./Modal";
+import ModalContent from "./ModalContent";
+import {Modal} from "@mui/material";
 
 function Profile() {
     const {logout} = useContext(AuthContext);
@@ -24,7 +25,7 @@ function Profile() {
     const [editingProfilePicture, setEditingProfilePicture] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorMessagePassword, setErrorMessagePassword] = useState('');
-    const [open, setOpenModal] =useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     useEffect(() => {
         if(userData) {
@@ -38,6 +39,10 @@ function Profile() {
         setDateOfBirth(user?.dateOfBirth);
         setPhoneNumber(user?.phoneNumber);
     }, [user]);
+
+    function handleModalClose() {
+        setOpenModal(false);
+    }
 
     function profilePictureUpload(files: FileList | null) {
         if ( files && files.length > 0) {
@@ -65,7 +70,7 @@ function Profile() {
                 if (error.response) {
                     setErrorMessage(error.response.data);
                 }
-            })
+            });
     }
 
     function handleProfileEditing() {
@@ -229,28 +234,30 @@ function Profile() {
                     hover:scale-[1.01] ease-in-out transition-all w-52 mt-3 py-2 ml-32 rounded-xl bg-red-600
                     text-white text-lg font-bold">Delete user
                     </button>
-                    <Modal open={open} onClose={() => setOpenModal(false)}>
-                        <div className="text-center w-56">
-                            <FaUserSlash size={56} className="mx-auto text-red-500" />
-                            <div className="mx-auto my-4 w-48">
-                                <h3 className="text-lg font-black text-gray-800">Confirm Delete</h3>
-                                <p className="text-sm text-gray-500">
-                                    Are you sure you want to delete your account?
-                                </p>
-                            </div>
-                            <div className="flex gap-4 font-semibold">
-                                <button className="active:scale-[.98] active:duration-75
+                    <Modal open={openModal} onClose={handleModalClose}>
+                        <ModalContent onClose={handleModalClose}>
+                            <div className="text-center w-56">
+                                <FaUserSlash size={56} className="mx-auto text-red-500" />
+                                <div className="mx-auto my-4 w-48">
+                                    <h3 className="text-lg font-black text-gray-800">Confirm Delete</h3>
+                                    <p className="text-sm text-gray-500">
+                                        Are you sure you want to delete your account?
+                                    </p>
+                                </div>
+                                <div className="flex gap-4 font-semibold">
+                                    <button className="active:scale-[.98] active:duration-75
                     hover:scale-[1.01] ease-in-out transition-all rounded-xl bg-red-600 w-full py-2 text-white"
-                                onClick={userDelete}>Delete</button>
-                                <button
-                                    className="active:scale-[.98] active:duration-75
+                                            onClick={userDelete}>Delete</button>
+                                    <button
+                                        className="active:scale-[.98] active:duration-75
                     hover:scale-[1.01] ease-in-out w-full py-2 text-yellow-900"
-                                    onClick={() => setOpenModal(false)}
-                                >
-                                    Cancel
-                                </button>
+                                        onClick={handleModalClose}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </ModalContent>
                     </Modal>
                 </div>
             </div>
