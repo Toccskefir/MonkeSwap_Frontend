@@ -105,6 +105,13 @@ function UpdateItem() {
         navigate('/inventory');
     }
 
+    function handleItemDelete() {
+        axios.delete('item/' + itemId)
+            .then(() => {
+                navigate('/inventory');
+            });
+    }
+
     return(
         <>
             <h1>Update your item</h1>
@@ -192,7 +199,8 @@ function UpdateItem() {
                 <p>{errorMessage}</p>
                 <button type="submit">Update</button>
             </form>
-            <button type="submit" onClick={handleCancel}>Cancel</button>
+            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleItemDelete}>Delete item</button>
 
             <ItemCard
                 item={{
