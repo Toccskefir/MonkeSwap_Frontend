@@ -3,6 +3,8 @@ import {HttpContext} from "../providers/HttpProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import categoryList from "../constants/categoryList";
 import ItemCard from "./ItemCard";
+import peeled_banana from "../assets/peeled_banana.png";
+import banana from "../assets/banana.png";
 
 function UpdateItem() {
     const axios = useContext(HttpContext);
@@ -13,6 +15,10 @@ function UpdateItem() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('OTHER');
     const [priceTier, setPriceTier] = useState(1);
+    const [banana2, setBanana2] = useState(false);
+    const [banana3, setBanana3] = useState(false);
+    const [banana4, setBanana4] = useState(false);
+    const [banana5, setBanana5] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
@@ -33,6 +39,41 @@ function UpdateItem() {
                 }
             });
     }, [itemId, axios]);
+
+    useEffect(() => {
+        switch (priceTier) {
+            case 1:
+                setBanana2(false);
+                setBanana3(false);
+                setBanana4(false);
+                setBanana5(false);
+                break;
+            case 2:
+                setBanana2(true);
+                setBanana3(false);
+                setBanana4(false);
+                setBanana5(false);
+                break;
+            case 3:
+                setBanana2(true);
+                setBanana3(true);
+                setBanana4(false);
+                setBanana5(false);
+                break;
+            case 4:
+                setBanana2(true);
+                setBanana3(true);
+                setBanana4(true);
+                setBanana5(false);
+                break;
+            case 5:
+                setBanana2(true);
+                setBanana3(true);
+                setBanana4(true);
+                setBanana5(true);
+                break;
+        }
+    }, [priceTier]);
 
     function handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -128,6 +169,25 @@ function UpdateItem() {
                         </select>
                     </label>
                 </div>
+
+                <label>
+                    Price Tier
+                    <img
+                        className="cursor-pointer"
+                        src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
+                    <img
+                        className="cursor-pointer"
+                        src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
+                    <img
+                        className="cursor-pointer"
+                        src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
+                    <img
+                        className="cursor-pointer"
+                        src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
+                    <img
+                        className="cursor-pointer"
+                        src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                </label>
 
                 <p>{errorMessage}</p>
                 <button type="submit">Update</button>
