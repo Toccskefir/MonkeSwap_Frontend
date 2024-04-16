@@ -1,10 +1,11 @@
 import TradeOfferData from "../interfaces/tradeOfferData";
 import {useContext, useState} from "react";
 import {HttpContext} from "../providers/HttpProvider";
-import ItemCardData from "../interfaces/itemCardData";
 import {FaArrowDown, FaArrowUp} from "react-icons/fa";
 import {Modal} from "@mui/material";
 import ModalContent from "./ModalContent";
+import ItemData from "../interfaces/itemData";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 interface TradeOfferProps {
     tradeOffer: TradeOfferData,
@@ -14,9 +15,10 @@ interface TradeOfferProps {
 
 function TradeOffer(props: TradeOfferProps) {
     const axios = useContext(HttpContext);
+    const {userData} = useContext(UserDataContext);
 
-    const [incomingItemData, setIncomingItemData] = useState<ItemCardData>();
-    const [offeredItemData, setOfferedItemData] = useState<ItemCardData>();
+    const [incomingItemData, setIncomingItemData] = useState<ItemData>();
+    const [offeredItemData, setOfferedItemData] = useState<ItemData>();
     const [openModal, setOpenModal] = useState(false);
 
     function handleModalClose() {
@@ -40,7 +42,14 @@ function TradeOffer(props: TradeOfferProps) {
     function acceptOffer() {
         axios.delete('tradeoffer/accept/' + props.tradeOffer.id)
             .then(() => {
-                props.onDelete();
+                axios.post('/notification',
+                    {
+                            message: `Your trade offer has been accepted: ${offeredItemData?.title} for ${incomingItemData?.title}`,
+                            type: 'NOTIFICATION',
+                            userId: offeredItemData?.userId,
+                    }).then(() => {
+                    props.onDelete();
+                });
             });
         handleModalClose();
     }
@@ -48,7 +57,29 @@ function TradeOffer(props: TradeOfferProps) {
     function declineOffer() {
         axios.delete('tradeoffer/decline/' + props.tradeOffer.id)
             .then(() => {
-                props.onDelete();
+                axios.post('/notification',
+                    {
+                        message: `Your trade offer has been declined: ${offeredItemData?.title} for ${incomingItemData?.title}`,
+                        type: 'NOTIFICATION',
+                        userId: offeredItemData?.userId,
+                    }).then(() => {
+                    props.onDelete();
+                });
+            });
+        handleModalClose();
+    }
+
+    function deleteOffer() {
+        axios.delete('tradeoffer/decline/' + props.tradeOffer.id)
+            .then(() => {
+                axios.post('/notification',
+                    {
+                        message: `${userData?.username} deleted a trade offer: ${offeredItemData?.title} for ${incomingItemData?.title}`,
+                        type: 'NOTIFICATION',
+                        userId: incomingItemData?.userId,
+                    }).then(() => {
+                    props.onDelete();
+                });
             });
         handleModalClose();
     }
@@ -80,8 +111,9 @@ function TradeOffer(props: TradeOfferProps) {
                     <p>{incomingItemData?.description}</p>
                     <p>{incomingItemData?.priceTier}</p>
                     <p>{incomingItemData?.category}</p>
-                    <button onClick={acceptOffer}>Accept</button>
-                    <button onClick={declineOffer}>Decline</button>
+                    {props.type === 'INCOMING' && <button onClick={acceptOffer}>Accept</button>}
+                    {props.type === 'INCOMING' && <button onClick={declineOffer}>Decline</button>}
+                    {props.type === 'OFFERED' && <button onClick={deleteOffer}>Delete offer</button>}
                     <img src={offeredItemData?.itemPicture} alt="incoming item picture"/>
                     <p>{offeredItemData?.title}</p>
                     <p>{offeredItemData?.description}</p>
