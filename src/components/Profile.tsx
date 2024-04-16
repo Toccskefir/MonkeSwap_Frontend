@@ -140,54 +140,51 @@ function Profile() {
                     <form onSubmit={handleSubmitEvent} className="flex flex-col">
                         <label className="font-semibold flex flex-col">
                             Username
-                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{username}</p> :
                                 <input
                                     type="text"
                                     placeholder="Monke"
-                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     value={username}
                                     onChange={event => setUsername(event.target.value)}
                                 />
                             }
+                        </label>
                         <label className="font-semibold flex flex-col">
                             Full Name
-                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{fullName}</p> :
                                 <input
                                     type="text"
                                     placeholder="No full name yet"
-                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     value={fullName}
                                     onChange={event => setFullName(event.target.value)}
                                 />
                             }
+                        </label>
                         <label className="font-semibold flex flex-col">
                             Date of birth
-                        </label>
                             {!editingProfile ?
                                 <p className="font-normal">{dateOfBirth?.toDateString()}</p> :
-                                <input
-                                    type="date"
-                                    className="mb-3 pl-1 w-80 border-2 border-black"
-                                    value={dateOfBirth?.toDateString()}
-                                />
+                                null
                             }
+                        </label>
                         <label className="font-semibold flex flex-col">
                             Phone number
-                        </label>
+
                             {!editingProfile ?
                                 <p className="font-normal">{phoneNumber}</p> :
                                 <input
                                     type="text"
                                     placeholder="No phone number yet"
-                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     value={phoneNumber}
                                     onChange={event => setPhoneNumber(event.target.value)}
                                 />
                             }
+                        </label>
                         <p className="text-red-600 font-medium">{errorMessage}</p>
                         {editingProfile ? <button type="submit" className="active:scale-[.98] active:duration-75
                         hover:scale-[1.01] ease-in-out transition-all py-2 rounded-xl bg-primary-yellow
