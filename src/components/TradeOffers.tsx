@@ -60,15 +60,11 @@ function TradeOffers() {
                         {errorMessage}
                     </div> :
                     <div>
-                        {incomingOffers!.map((tradeOffer) => (
+                        {incomingOffers.map((tradeOffer) => (
                             <TradeOffer
                                 key={tradeOffer.id}
                                 tradeOffer={tradeOffer}
                                 type={type}
-                                accept={() => {
-                                }}
-                                decline={() => {
-                                }}
                             />
                         ))}
                     </div>
@@ -87,13 +83,11 @@ function TradeOffers() {
                         {errorMessage}
                     </div> :
                     <div>
-                        {offeredOffers!.map((tradeOffer) => (
+                        {offeredOffers.map((tradeOffer) => (
                             <TradeOffer
                                 key={tradeOffer.id}
                                 tradeOffer={tradeOffer}
                                 type={type}
-                                accept={() => {}}
-                                decline={() => {}}
                             />
                         ))}
                     </div>
