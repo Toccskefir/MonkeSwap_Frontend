@@ -10,7 +10,7 @@ html{
 }
 
 .h-card-backside{
-    height: 424px;
+    height: 464px;
 }
 .h-card{
     height: 400px;
@@ -26,8 +26,12 @@ html{
     width: 320px;
 }
 
-.p-no-overflow{
+.p-no-overflow-description{
     max-width: 300px;
+    word-wrap: break-word;
+}
+.p-no-overflow-title{
+    max-width: 272px;
     word-wrap: break-word;
 }
 

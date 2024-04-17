@@ -9,7 +9,7 @@ function PriceTier({ tier }: PriceTierProps) {
     return (
         <div>
             {imageArray.map((_, index) => (
-                <img key={index} src={peeled_banana} alt="banana"/>
+                <img key={index} src={peeled_banana} alt="banana" className="h-14 w-14"/>
             ))}
         </div>
     );
