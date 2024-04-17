@@ -29,7 +29,7 @@ function Notifications() {
     }
 
     return(
-        <>
+        <div className="font-poppins">
             {notificationList.length === 0 ?
                 <div className="text-4xl text-center text-black m-5">
                     {errorMessage}
@@ -49,7 +49,7 @@ function Notifications() {
                     ))}
                 </div>
             }
-        </>
+        </div>
     );
 }
 

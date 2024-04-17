@@ -27,6 +27,10 @@ html{
 }
 
 .p-no-overflow{
-    max-width: 300px; /* Set the maximum width */
-    word-wrap: break-word; /* Enable line breaks within words */
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+.bottom-4_5{
+    bottom: 19px;
 }

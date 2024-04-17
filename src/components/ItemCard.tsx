@@ -1,6 +1,7 @@
 import {useState} from "react";
 import ItemCardData from "../interfaces/itemCardData";
 import ItemCardWithIdData from "../interfaces/itemCardWithIdData";
+import {FaRegEye} from "react-icons/fa";
 
 interface ItemCardProps {
     item: ItemCardData | ItemCardWithIdData,
@@ -24,6 +25,8 @@ function ItemCard(props: ItemCardProps) {
                              alt="card picture"/>
                         <div className="px-6 py-4">
                             <div className="font-bold text-md mb-2 h-20 w-full">{props.item.title}</div>
+                            <FaRegEye className="absolute right-3 bottom-4_5"/>
+                            <p className="absolute font-medium text-sm right-9 bottom-0">{props.item.views}</p>
                         </div>
                     </div>
                     <div className="absolute h-card-backside w-card-backside rounded bg-white p-12 [transform:rotateY(180deg)] [backface-visibility:hidden]">

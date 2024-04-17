@@ -4,4 +4,5 @@ export  default interface ItemCardData {
     description: string,
     category?: string,
     priceTier: number,
+    views?: number,
 }
