@@ -179,21 +179,23 @@ function UpdateItem() {
 
                 <label>
                     Price Tier
-                    <img
-                        className="cursor-pointer"
-                        src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                    <div className="columns-5 justify-center">
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                    </div>
                 </label>
 
                 <p>{errorMessage}</p>
@@ -202,6 +204,7 @@ function UpdateItem() {
             <button onClick={handleCancel}>Cancel</button>
             <button onClick={handleItemDelete}>Delete item</button>
 
+            <div className="absolute right-40 bottom-20">
             <ItemCard
                 item={{
                     title: title.trim() === '' ? 'Golden monkey' : title,
@@ -211,6 +214,7 @@ function UpdateItem() {
                 }}
                 buttonText="Example"
             />
+            </div>
         </>
     );
 }
