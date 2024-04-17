@@ -96,7 +96,7 @@ function CreateItem() {
                         <input
                             type="file"
                             id="inputImage"
-                            className="form-control"
+                            className="form-control mb-3"
                             accept="image/*"
                             onChange={(event) => handleItemPictureChange(event.target.files)}
                         />
@@ -109,7 +109,7 @@ function CreateItem() {
                         <input
                             type="text"
                             id="inputTitle"
-                            className="form-control"
+                            className="form-control mb-3"
                             placeholder="Golden monkey"
                             value={title}
                             onChange={event => setTitle(event.target.value)}
@@ -122,7 +122,7 @@ function CreateItem() {
                         Description
                         <textarea
                             id="inputDescription"
-                            className="form-control"
+                            className="form-control mb-3"
                             placeholder="A monkey made of gold..."
                             value={description}
                             onChange={event => setDescription(event.target.value)}
@@ -134,7 +134,7 @@ function CreateItem() {
                     <label>
                         Category
                         <select
-                            className="form-control"
+                            className="form-control mb-3"
                             id="inputCategory"
                             value={category}
                             onChange={event => setCategory(event.target.value)}
@@ -151,29 +151,33 @@ function CreateItem() {
                     </label>
                 </div>
 
+
                 <label>
                     Price Tier
-                    <img
-                        className="cursor-pointer"
-                        src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
-                    <img
-                        className="cursor-pointer"
-                        src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                    <div className="columns-5 justify-center">
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
+                        <img
+                            className="cursor-pointer h-28 w-28"
+                            src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                    </div>
                 </label>
 
-                <p>{errorMessage}</p>
-                <button type="submit">Create</button>
+            <p>{errorMessage}</p>
+            <button type="submit">Create</button>
             </form>
 
+            <div className="absolute right-40 bottom-20">
             <ItemCard
                 item={{
                     title: title.trim() === '' ? 'Golden monkey' : title,
@@ -183,6 +187,7 @@ function CreateItem() {
                 }}
                 buttonText="Example"
             />
+            </div>
         </>
     );
 }
