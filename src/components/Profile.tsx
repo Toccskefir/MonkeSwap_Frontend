@@ -16,7 +16,7 @@ function Profile() {
     const [user, setUser] = useState<UserData | null>();
     const [username, setUsername] = useState(user?.username);
     const [fullName, setFullName] = useState(user?.fullName);
-    const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth);
+    const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
     const [selectedProfilePicture, setSelectedProfilePicture] = useState<Blob | null>(null);
     const [newPassword, setNewPassword] = useState('');
@@ -36,7 +36,7 @@ function Profile() {
     useEffect(() => {
         setUsername(user?.username);
         setFullName(user?.fullName);
-        setDateOfBirth(user?.dateOfBirth);
+        setDateOfBirth(user?.dateOfBirth as Date);
         setPhoneNumber(user?.phoneNumber);
     }, [user]);
 
@@ -78,6 +78,11 @@ function Profile() {
         setErrorMessage('');
     }
 
+    function handleDateChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const selectedDate = new Date(event.target.value);
+        setDateOfBirth(selectedDate);
+    }
+
     async function userDelete() {
 
         await axios.delete('user')
@@ -92,6 +97,15 @@ function Profile() {
         axios.put('user', {username, fullName, dateOfBirth, phoneNumber})
             .then(() => {
                 handleProfileEditing();
+                if (user) {
+                    setUserData({
+                        ...user,
+                        username: username as string,
+                        fullName: fullName as string,
+                        dateOfBirth: dateOfBirth,
+                        phoneNumber: phoneNumber as string
+                    });
+                }
             })
             .catch((error) => {
                 if (error.response) {
@@ -167,8 +181,12 @@ function Profile() {
                         <label className="font-semibold flex flex-col">
                             Date of birth
                             {!editingProfile ?
-                                <p className="font-normal">{dateOfBirth?.toDateString()}</p> :
-                                null
+                                <p className="font-normal">{dateOfBirth ? dateOfBirth.toString() : ''}</p> :
+                                <input
+                                    type="date"
+                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    onChange={handleDateChange}
+                                />
                             }
                         </label>
                         <label className="font-semibold flex flex-col">
