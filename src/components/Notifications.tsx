@@ -44,8 +44,10 @@ function Notifications() {
                         </button>
                     </div>
 
-                    {notificationList.map((notification, index) => (
-                        <Notification key={index} message={notification.message} type={notification.type}/>
+                    {notificationList
+                        .sort((notificationA, notificationB) => notificationB.id - notificationA.id)
+                        .map((notification) => (
+                        <Notification key={notification.id} id={notification.id} message={notification.message} type={notification.type}/>
                     ))}
                 </div>
             }
