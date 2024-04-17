@@ -83,6 +83,10 @@ function Profile() {
 
     function handleProfileEditing() {
         setEditingProfile(editing => !editing);
+        setUsername(user?.username);
+        setFullName(user?.fullName);
+        setDateOfBirth(user?.dateOfBirth);
+        setPhoneNumber(user?.phoneNumber);
         setErrorMessage('');
     }
 
