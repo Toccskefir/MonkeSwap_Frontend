@@ -16,7 +16,7 @@ function Profile() {
     const [user, setUser] = useState<UserData | null>();
     const [username, setUsername] = useState(user?.username);
     const [fullName, setFullName] = useState(user?.fullName);
-    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth);
     const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
     const [selectedProfilePicture, setSelectedProfilePicture] = useState<Blob | null>(null);
     const [newPassword, setNewPassword] = useState('');
@@ -26,6 +26,7 @@ function Profile() {
     const [errorMessage, setErrorMessage] = useState('');
     const [errorMessagePassword, setErrorMessagePassword] = useState('');
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [maxDate, setMaxDate] = useState('');
 
     useEffect(() => {
         if(userData) {
@@ -36,9 +37,16 @@ function Profile() {
     useEffect(() => {
         setUsername(user?.username);
         setFullName(user?.fullName);
-        setDateOfBirth(user?.dateOfBirth as Date);
+        setDateOfBirth(user?.dateOfBirth);
         setPhoneNumber(user?.phoneNumber);
     }, [user]);
+
+    useEffect(() => {
+        const currentDate = new Date();
+        const maxDateValue = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+        const formattedMaxDate = maxDateValue.toISOString().split('T')[0];
+        setMaxDate(formattedMaxDate);
+    }, []);
 
     function handleModalClose() {
         setOpenModal(false);
@@ -80,7 +88,7 @@ function Profile() {
 
     function handleDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         const selectedDate = new Date(event.target.value);
-        setDateOfBirth(selectedDate);
+        setDateOfBirth(selectedDate.toLocaleDateString());
     }
 
     async function userDelete() {
@@ -102,7 +110,7 @@ function Profile() {
                         ...user,
                         username: username as string,
                         fullName: fullName as string,
-                        dateOfBirth: dateOfBirth,
+                        dateOfBirth: dateOfBirth as string,
                         phoneNumber: phoneNumber as string
                     });
                 }
@@ -181,10 +189,11 @@ function Profile() {
                         <label className="font-semibold flex flex-col">
                             Date of birth
                             {!editingProfile ?
-                                <p className="font-normal">{dateOfBirth ? dateOfBirth.toString() : ''}</p> :
+                                <p className="font-normal">{dateOfBirth}</p> :
                                 <input
                                     type="date"
                                     className="mb-3 pl-1 w-80 border-2 border-black"
+                                    max={maxDate}
                                     onChange={handleDateChange}
                                 />
                             }
