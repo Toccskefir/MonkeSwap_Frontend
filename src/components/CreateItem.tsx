@@ -180,6 +180,7 @@ function CreateItem() {
             <div className="absolute right-40 bottom-20">
             <ItemCard
                 item={{
+                    id: 0,
                     title: title.trim() === '' ? 'Golden monkey' : title,
                     itemPicture: itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic,
                     description: description.trim() === '' ? 'A monkey made of gold...' : description,

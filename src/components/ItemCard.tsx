@@ -1,11 +1,10 @@
 import {useState} from "react";
-import ItemCardData from "../interfaces/itemCardData";
-import ItemCardWithIdData from "../interfaces/itemCardWithIdData";
+import ItemData from "../interfaces/itemData";
 import {FaRegEye} from "react-icons/fa";
 import PriceTier from "./PriceTier";
 
 interface ItemCardProps {
-    item: ItemCardData | ItemCardWithIdData,
+    item: ItemData,
     buttonText: string,
     onButtonClick?: () => void,
 }

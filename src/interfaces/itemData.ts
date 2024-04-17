@@ -1,8 +1,11 @@
-import ItemCardData from "./itemCardData";
-
-export  default interface ItemData extends ItemCardData{
-    views: number,
-    state: 'ENABLED' | 'DISABLED',
-    category: string,
-    userId: number,
+export  default interface ItemData {
+    id: number
+    title: string,
+    itemPicture: string,
+    description: string,
+    category?: string,
+    priceTier: number,
+    views?: number,
+    state?: 'ENABLED' | 'DISABLED',
+    userId?: number,
 }

@@ -207,6 +207,7 @@ function UpdateItem() {
             <div className="absolute right-40 bottom-20">
             <ItemCard
                 item={{
+                    id: 0,
                     title: title.trim() === '' ? 'Golden monkey' : title,
                     itemPicture: selectedPicture ? URL.createObjectURL(selectedPicture) : `data:image/png;base64, ${itemPicture}`,
                     description: description!.trim() === '' ? 'A monkey made of gold...' : description,

@@ -1,13 +1,13 @@
 import {useContext, useEffect, useState} from "react";
 import {HttpContext} from "../providers/HttpProvider";
 import ItemCard from "./ItemCard";
-import ItemCardWithIdData from "../interfaces/itemCardWithIdData";
 import {useNavigate} from "react-router-dom";
+import ItemData from "../interfaces/itemData";
 
 function Inventory() {
     const axios = useContext(HttpContext);
 
-    const [itemList, setItemList] = useState<ItemCardWithIdData[]>([]);
+    const [itemList, setItemList] = useState<ItemData[]>([]);
     const [errorMessage, setErrorMessage] = useState('Your items will be displayed here');
 
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Inventory() {
             });
     }, [axios]);
 
-    function handleButtonClick(selectedItem: ItemCardWithIdData) {
+    function handleButtonClick(selectedItem: ItemData) {
         navigate('/updateitem/' + selectedItem.id);
     }
 
