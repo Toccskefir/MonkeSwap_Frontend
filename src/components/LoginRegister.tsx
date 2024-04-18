@@ -86,6 +86,7 @@ function LoginRegister() {
                                     Username
                                     <input
                                         type="text"
+                                        maxLength={25}
                                         className="w-full border-2 border-gray-100 rounded-xl padding_right_4_75_rem pt-3 pb-3 pl-3 mt-1"
                                         placeholder="Monke"
                                         value={username}
@@ -100,6 +101,7 @@ function LoginRegister() {
                                 Password
                                 <input
                                     type="password"
+                                    maxLength={30}
                                     className="w-full border-2 border-gray-100 rounded-xl pr-20 pt-3 pb-3 pl-3 mt-1"
                                     placeholder="**********"
                                     value={password}
@@ -116,6 +118,7 @@ function LoginRegister() {
                                         Confirm password
                                         <input
                                             type="password"
+                                            maxLength={30}
                                             className="w-full border-2 border-gray-100 rounded-xl pr-2 pt-3 pb-3 pl-3 mt-1"
                                             placeholder="**********"
                                             value={passwordAgain}
