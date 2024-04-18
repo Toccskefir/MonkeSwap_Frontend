@@ -91,108 +91,117 @@ function CreateItem() {
 
     return(
         <>
-            <h1>Create a new item</h1>
-            <form onSubmit={handleSubmitEvent}>
-                <div className="form-group">
-                    <label>
-                        Picture
-                        <input
-                            type="file"
-                            id="inputImage"
-                            className="form-control mb-3"
-                            accept="image/*"
-                            onChange={(event) => handleItemPictureChange(event.target.files)}
-                        />
-                    </label>
-                </div>
+        <div className="flex flex-col w-fit font-poppins overflow-hidden columns-3">
+            <div className="bg-white px-10 py-10 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
+                <h1 className="font-bold">Create a new item</h1>
+                <div className="w-full flex">
+                    <form onSubmit={handleSubmitEvent}>
+                        <label className="font-semibold">
+                            Picture
+                        </label>
+                        <div className="form-group">
+                            <input
+                                type="file"
+                                id="inputImage"
+                                className="mb-3"
+                                accept="image/*"
+                                onChange={(event) => handleItemPictureChange(event.target.files)}
+                            />
+                        </div>
 
-                <div className="form-group">
-                    <label>
-                        Title
-                        <input
-                            type="text"
-                            id="inputTitle"
-                            className="form-control mb-3"
-                            placeholder="Golden monkey"
-                            value={title}
-                            onChange={event => setTitle(event.target.value)}
-                        />
-                    </label>
-                </div>
+                        <label className="font-semibold">
+                            Title
+                        </label>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                id="inputTitle"
+                                className="mb-3 pl-2 border-2 border-gray-300 rounded-xl pt-1 pb-1 w-80"
+                                placeholder="Golden monkey"
+                                value={title}
+                                onChange={event => setTitle(event.target.value)}
+                            />
+                        </div>
 
-                <div className="form-group">
-                    <label>
-                        Description
-                        <textarea
-                            id="inputDescription"
-                            className="form-control mb-3"
-                            placeholder="A monkey made of gold..."
-                            value={description}
-                            onChange={event => setDescription(event.target.value)}
-                        />
-                    </label>
-                </div>
+                        <label className="font-semibold">
+                            Description
+                        </label>
+                        <div className="form-group">
+                    <textarea
+                        id="inputDescription"
+                        className="mb-3 pl-2 pt-1 border-2 border-gray-300 rounded-xl w-80 h-32"
+                        placeholder="A monkey made of gold..."
+                        value={description}
+                        onChange={event => setDescription(event.target.value)}
+                    />
+                        </div>
 
-                <div className="form-group">
-                    <label>
-                        Category
-                        <select
-                            className="form-control mb-3"
-                            id="inputCategory"
-                            value={category}
-                            onChange={event => setCategory(event.target.value)}
-                        >
-                            {categoryList.map(item => (
+                        <label className="font-semibold">
+                            Category
+                        </label>
+                        <div className="form-group">
+                            <select
+                                className="mb-3 pl-1 pr-2 border-2 border-gray-300 rounded-xl"
+                                id="inputCategory"
+                                value={category}
+                                onChange={event => setCategory(event.target.value)}
+                            >
+                                {categoryList.map(item => (
                                     <option
                                         key={item}
                                         value={item.toUpperCase().replaceAll(' ', '')}
                                     >
                                         {item}
                                     </option>
-                            ))}
-                        </select>
-                    </label>
+                                ))}
+                            </select>
+                        </div>
+
+
+                        <label className="font-semibold">
+                            Price Tier
+                        </label>
+                        <div className="columns-5 w-fit">
+                            <img
+                                className="cursor-pointer h-20"
+                                src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
+                            <img
+                                className="cursor-pointer h-20"
+                                src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
+                            <img
+                                className="cursor-pointer h-20"
+                                src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
+                            <img
+                                className="cursor-pointer h-20"
+                                src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
+                            <img
+                                className="cursor-pointer h-20"
+                                src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                        </div>
+
+                        <p className="text-red-600 mt-3">sSADADADDA{errorMessage}</p>
+                        <button type="submit" className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold">Create
+                        </button>
+                    </form>
+
                 </div>
-
-
-                <label>
-                    Price Tier
-                    <div className="columns-5 justify-center">
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
-                    </div>
-                </label>
-
-            <p>{errorMessage}</p>
-            <button type="submit">Create</button>
-            </form>
-
-            <div className="absolute right-40 bottom-20">
-            <ItemCard
-                item={{
-                    id: 0,
-                    title: title.trim() === '' ? 'Golden monkey' : title,
-                    itemPicture: itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic,
-                    description: description.trim() === '' ? 'A monkey made of gold...' : description,
-                    priceTier: priceTier,
-                }}
-                buttonText="Example"
-            />
             </div>
-        </>
+        </div>
+            <div className="absolute right-80 bottom-0">
+                <ItemCard
+                    item={{
+                        id: 0,
+                        title: title.trim() === '' ? 'Golden monkey' : title,
+                        itemPicture: itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic,
+                        description: description.trim() === '' ? 'A monkey made of gold...' : description,
+                        priceTier: priceTier,
+                    }}
+                    buttonText="Example"
+                />
+            </div>
+            </>
     );
 }
 
