@@ -5,9 +5,11 @@ import categoryList from "../constants/categoryList";
 import ItemCard from "./ItemCard";
 import peeled_banana from "../assets/peeled_banana.png";
 import banana from "../assets/banana.png";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 function UpdateItem() {
     const axios = useContext(HttpContext);
+    const { userItems, setUserItems } = useContext(UserDataContext);
 
     const [selectedPicture, setSelectedPicture] = useState<Blob | null>(null);
     const [itemPicture, setItemPicture] = useState('');
@@ -85,14 +87,18 @@ function UpdateItem() {
         formData.append('priceTier', priceTier.toString());
 
         axios.put('item/' + itemId, formData)
-            .then(() => {
-                navigate('/inventory')
+            .then((response) => {
+                const updatedIndex = userItems.findIndex(item => item.id === response.data.id);
+                const updatedItems = [...userItems];
+                updatedItems[updatedIndex] = response.data;
+                setUserItems(updatedItems);
+                navigate('/inventory');
             })
             .catch((error) => {
                 if (error.response) {
                     setErrorMessage(error.response.data);
                 }
-            })
+            });
     }
 
     function handleItemPictureChange(files: FileList | null) {
@@ -108,6 +114,8 @@ function UpdateItem() {
     function handleItemDelete() {
         axios.delete('item/' + itemId)
             .then(() => {
+                const updatedItems = userItems.filter(item => item.id !== Number(itemId));
+                setUserItems(updatedItems);
                 navigate('/inventory');
             });
     }

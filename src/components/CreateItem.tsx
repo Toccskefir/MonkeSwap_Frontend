@@ -7,9 +7,11 @@ import {useNavigate} from "react-router-dom";
 import ItemCard from "./ItemCard";
 import {HttpContext} from "../providers/HttpProvider";
 import categoryList from "../constants/categoryList";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 function CreateItem() {
     const axios = useContext(HttpContext);
+    const { userItems, setUserItems } = useContext(UserDataContext);
 
     const [itemPicture, setItemPicture] = useState<Blob | null>(null);
     const [title, setTitle] = useState('');
@@ -71,7 +73,8 @@ function CreateItem() {
         formData.append('priceTier', priceTier.toString());
 
         await axios.post('item', formData)
-            .then(async () => {
+            .then(async (response) => {
+                setUserItems([...userItems, response.data]);
                 navigate('/inventory');
             }).catch((error) => {
                 if (error.response) {
