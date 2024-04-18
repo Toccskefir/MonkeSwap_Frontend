@@ -280,6 +280,7 @@ function UpdateItem() {
                         description: description!.trim() === '' ? 'A monkey made of gold...' : description,
                         priceTier: priceTier,
                     }}
+                    showViews={false}
                     buttonText="Example"
                 />
             </div>

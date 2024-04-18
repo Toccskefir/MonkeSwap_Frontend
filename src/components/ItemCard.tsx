@@ -6,6 +6,7 @@ import PriceTier from "./PriceTier";
 interface ItemCardProps {
     item: ItemData,
     buttonText: string,
+    showViews: boolean,
     onButtonClick?: () => void,
 }
 
@@ -25,8 +26,12 @@ function ItemCard(props: ItemCardProps) {
                              alt="card picture"/>
                         <div className="px-6 py-4">
                             <div className="font-bold text-md mb-5 h-20 w-full p-no-overflow-title">{props.item.title}</div>
-                            <FaRegEye className="absolute right-2.5 bottom-4_5"/>
-                            <p className="absolute font-medium text-sm right-8 bottom-0">{props.item.views}</p>
+                            {props.showViews &&
+                                <>
+                                    <FaRegEye className="absolute right-2.5 bottom-4_5"/>
+                                    <p className="absolute font-medium text-sm right-8 bottom-0">{props.item.views}</p>
+                                </>
+                            }
                             <div className="absolute columns-5 bottom-8"><PriceTier tier={props.item.priceTier}/></div>
                             </div>
                         </div>

@@ -132,6 +132,7 @@ function Homepage() {
                         <ItemCard
                             item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
                             onButtonClick={() => handleViewButtonClick(item)}
+                            showViews={true}
                             buttonText="View"
                         />
                     ))}
@@ -171,6 +172,7 @@ function Homepage() {
                             <ItemCard
                                 item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
                                 onButtonClick={() => handleOfferSend(item)}
+                                showViews={false}
                                 buttonText="Send offer"
                             />
                         ))}

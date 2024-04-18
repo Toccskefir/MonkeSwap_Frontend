@@ -31,6 +31,7 @@ function Inventory() {
                             <ItemCard
                                 item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
                                 onButtonClick={() => handleButtonClick(item)}
+                                showViews={true}
                                 buttonText="Edit"
                             />
                         ))}
