@@ -6,6 +6,9 @@ import ItemCard from "./ItemCard";
 import peeled_banana from "../assets/peeled_banana.png";
 import banana from "../assets/banana.png";
 import {UserDataContext} from "../contexts/UserDataContext";
+import ModalContent from "./ModalContent";
+import {Modal} from "@mui/material";
+import {FaTrashCan} from "react-icons/fa6";
 
 function UpdateItem() {
     const axios = useContext(HttpContext);
@@ -22,6 +25,7 @@ function UpdateItem() {
     const [banana4, setBanana4] = useState(false);
     const [banana5, setBanana5] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     const navigate = useNavigate();
     let { itemId } = useParams();
@@ -101,6 +105,10 @@ function UpdateItem() {
             });
     }
 
+    function handleModalClose() {
+        setOpenModal(false);
+    }
+
     function handleItemPictureChange(files: FileList | null) {
         if ( files && files.length > 0) {
             setSelectedPicture(data => files[0]);
@@ -122,107 +130,153 @@ function UpdateItem() {
 
     return(
         <>
-            <h1>Update your item</h1>
-            <form onSubmit={handleSubmitEvent}>
-                <div className="form-group">
-                    <label>
-                        Image
-                        <input
-                            type="file"
-                            id="inputImage"
-                            className="form-control"
-                            accept="image/*"
-                            onChange={(event) => handleItemPictureChange(event.target.files)}
-                        />
-                    </label>
-                </div>
+            <div className="flex flex-col w-fit font-poppins overflow-hidden columns-3">
+                <div className="bg-white px-10 py-10 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
+                    <h1 className="font-bold">Update an item</h1>
+                    <div className="w-full">
+                        <form onSubmit={handleSubmitEvent}>
+                            <label className="font-semibold">
+                                Picture
+                            </label>
+                            <div className="form-group">
+                                <input
+                                    type="file"
+                                    id="inputImage"
+                                    className="mb-3"
+                                    accept="image/*"
+                                    onChange={(event) => handleItemPictureChange(event.target.files)}
+                                />
+                            </div>
 
-                <div className="form-group">
-                    <label>
-                        Title
-                        <input
-                            type="text"
-                            id="inputTitle"
-                            className="form-control"
-                            placeholder="Golden monkey"
-                            value={title}
-                            onChange={event => setTitle(event.target.value)}
-                        />
-                    </label>
-                </div>
+                            <label className="font-semibold">
+                                Title
+                            </label>
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    id="inputTitle"
+                                    className="mb-3 pl-2 border-2 border-gray-300 rounded-xl pt-1 pb-1 w-80"
+                                    placeholder="Golden monkey"
+                                    value={title}
+                                    onChange={event => setTitle(event.target.value)}
+                                />
+                            </div>
 
-                <div className="form-group">
-                    <label>
-                        Description
-                        <textarea
-                            id="inputDescription"
-                            className="form-control"
-                            placeholder="A monkey made of gold..."
-                            value={description}
-                            onChange={event => setDescription(event.target.value)}
-                        />
-                    </label>
-                </div>
+                            <label className="font-semibold">
+                                Description
+                            </label>
+                            <div className="form-group">
+                    <textarea
+                        id="inputDescription"
+                        className="mb-3 pl-2 pt-1 border-2 border-gray-300 rounded-xl w-80 h-32"
+                        placeholder="A monkey made of gold..."
+                        value={description}
+                        onChange={event => setDescription(event.target.value)}
+                    />
+                            </div>
 
-                <div className="form-group">
-                    <label>
-                        Category
-                        <select
-                            className="form-control"
-                            id="inputCategory"
-                            value={category}
-                            onChange={event => setCategory(event.target.value)}
-                        >
-                            {categoryList.map(item => (
-                                <option
-                                    key={item}
-                                    value={item.toUpperCase().replaceAll(' ', '')}
+                            <label className="font-semibold">
+                                Category
+                            </label>
+                            <div className="form-group">
+                                <select
+                                    className="mb-3 pl-1 pr-2 border-2 border-gray-300 rounded-xl"
+                                    id="inputCategory"
+                                    value={category}
+                                    onChange={event => setCategory(event.target.value)}
                                 >
-                                    {item}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-                </div>
+                                    {categoryList.map(item => (
+                                        <option
+                                            key={item}
+                                            value={item.toUpperCase().replaceAll(' ', '')}
+                                        >
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                <label>
-                    Price Tier
-                    <div className="columns-5 justify-center">
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
-                        <img
-                            className="cursor-pointer h-28 w-28"
-                            src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+
+                            <label className="font-semibold">
+                                Price Tier
+                            </label>
+                            <div className="columns-5 w-fit">
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana2 ? peeled_banana : banana} alt="banana"
+                                    onClick={() => setPriceTier(2)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana3 ? peeled_banana : banana} alt="banana"
+                                    onClick={() => setPriceTier(3)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana4 ? peeled_banana : banana} alt="banana"
+                                    onClick={() => setPriceTier(4)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana5 ? peeled_banana : banana} alt="banana"
+                                    onClick={() => setPriceTier(5)}/>
+                            </div>
+
+                            <p className="text-red-600 mt-3">sSADADADDA{errorMessage}</p>
+                            <button type="submit" className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 py-2 rounded-xl bg-primary-yellow
+                    text-yellow-900 text-lg font-bold">Update
+                            </button>
+                            <button onClick={handleCancel} className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all py-2 mt-3 ml-10 rounded-xl bg-white
+                    text-lg font-bold text-yellow-900">Cancel
+                            </button>
+                            <br/>
+                        </form>
+                        <button onClick={() => setOpenModal(true)} className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 mt-3 py-2 ml-16 rounded-xl bg-red-600
+                    text-white text-lg font-bold">Delete item
+                        </button>
+                        <Modal open={openModal} onClose={handleModalClose} className="grid h-screen place-items-center">
+                            <ModalContent onClose={handleModalClose}>
+                                <div className="text-center w-56">
+                                    <FaTrashCan size={56} className="mx-auto text-red-500" />
+                                    <div className="mx-auto my-4 w-48">
+                                        <h3 className="text-lg font-black text-gray-800">Confirm Delete</h3>
+                                        <p className="text-sm text-gray-500">
+                                            Are you sure you want to delete this item?
+                                        </p>
+                                    </div>
+                                    <div className="flex gap-4 font-semibold">
+                                        <button className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all rounded-xl bg-red-600 w-full py-2 text-white"
+                                                onClick={handleItemDelete}>Delete</button>
+                                        <button
+                                            className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out w-full py-2"
+                                            onClick={handleModalClose}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </ModalContent>
+                        </Modal>
                     </div>
-                </label>
+                </div>
+            </div>
 
-                <p>{errorMessage}</p>
-                <button type="submit">Update</button>
-            </form>
-            <button onClick={handleCancel}>Cancel</button>
-            <button onClick={handleItemDelete}>Delete item</button>
-
-            <div className="absolute right-40 bottom-20">
-            <ItemCard
-                item={{
-                    id: 0,
-                    title: title.trim() === '' ? 'Golden monkey' : title,
-                    itemPicture: selectedPicture ? URL.createObjectURL(selectedPicture) : `data:image/png;base64, ${itemPicture}`,
-                    description: description!.trim() === '' ? 'A monkey made of gold...' : description,
-                    priceTier: priceTier,
-                }}
-                buttonText="Example"
-            />
+            <div className="absolute right-80 bottom-0">
+                <ItemCard
+                    item={{
+                        id: 0,
+                        title: title.trim() === '' ? 'Golden monkey' : title,
+                        itemPicture: selectedPicture ? URL.createObjectURL(selectedPicture) : `data:image/png;base64, ${itemPicture}`,
+                        description: description!.trim() === '' ? 'A monkey made of gold...' : description,
+                        priceTier: priceTier,
+                    }}
+                    buttonText="Example"
+                />
             </div>
         </>
     );
