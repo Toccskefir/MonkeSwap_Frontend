@@ -112,10 +112,10 @@ function Profile() {
                 if (user) {
                     setUserData({
                         ...user,
-                        username: username as string,
-                        fullName: fullName as string,
-                        dateOfBirth: dateOfBirth as string,
-                        phoneNumber: phoneNumber as string
+                        username: username?.trim() as string,
+                        fullName: fullName?.trim() as string,
+                        dateOfBirth: dateOfBirth?.trim() as string,
+                        phoneNumber: phoneNumber?.trim() as string
                     });
                 }
             })
@@ -170,6 +170,7 @@ function Profile() {
                                 <p className="font-normal">{username}</p> :
                                 <input
                                     type="text"
+                                    maxLength={25}
                                     placeholder="Monke"
                                     className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     value={username}
@@ -183,6 +184,7 @@ function Profile() {
                                 <p className="font-normal">{fullName}</p> :
                                 <input
                                     type="text"
+                                    maxLength={25}
                                     placeholder="No full name yet"
                                     className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     value={fullName}
@@ -209,6 +211,7 @@ function Profile() {
                                 <p className="font-normal">{phoneNumber}</p> :
                                 <input
                                     type="text"
+                                    maxLength={16}
                                     placeholder="No phone number yet"
                                     className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     value={phoneNumber}
@@ -238,6 +241,7 @@ function Profile() {
                         <input
                             className="mb-3 pl-1 w-80 border-2 border-black"
                             type="password"
+                            maxLength={30}
                             placeholder="********"
                             value={newPassword}
                             onChange={event => setNewPassword(event.target.value)}
@@ -248,6 +252,7 @@ function Profile() {
                         <input
                             className="mb-3 pl-1 w-80 border-2 border-black"
                             type="password"
+                            maxLength={30}
                             placeholder="********"
                             value={newPasswordAgain}
                             onChange={event => setNewPasswordAgain(event.target.value)}
