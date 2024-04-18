@@ -193,10 +193,10 @@ function Profile() {
                         <label className="font-semibold flex flex-col">
                             Date of birth
                             {!editingProfile ?
-                                <p className="font-normal">{dateOfBirth}</p> :
+                                <p>{dateOfBirth}</p> :
                                 <input
                                     type="date"
-                                    className="mb-3 pl-1 w-80 border-2 border-black"
+                                    className="font-normal mb-3 pl-1 w-80 border-2 border-black"
                                     max={maxDate}
                                     onChange={handleDateChange}
                                 />
@@ -262,7 +262,7 @@ function Profile() {
                     hover:scale-[1.01] ease-in-out transition-all w-52 mt-3 py-2 ml-32 rounded-xl bg-red-600
                     text-white text-lg font-bold">Delete user
                     </button>
-                    <Modal open={openModal} onClose={handleModalClose}>
+                    <Modal open={openModal} onClose={handleModalClose} className="grid h-screen place-items-center">
                         <ModalContent onClose={handleModalClose}>
                             <div className="text-center w-56">
                                 <FaUserSlash size={56} className="mx-auto text-red-500" />
@@ -278,7 +278,7 @@ function Profile() {
                                             onClick={userDelete}>Delete</button>
                                     <button
                                         className="active:scale-[.98] active:duration-75
-                    hover:scale-[1.01] ease-in-out w-full py-2 text-yellow-900"
+                    hover:scale-[1.01] ease-in-out w-full py-2"
                                         onClick={handleModalClose}
                                     >
                                         Cancel

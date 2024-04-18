@@ -37,7 +37,9 @@ function Notifications() {
                 <div>
                     <div className="grid justify-items-end">
                         <button
-                            className="hover:bg-black hover:text-white py-2 px-4 m-2.5 border hover:border-transparent rounded shadow-md"
+                            className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-52 mt-3 mb-2 mr-2.5 py-2 ml-12 rounded-xl bg-red-600
+                    text-white text-lg font-bold"
                             onClick={handleDelete}
                         >
                             Delete notifications

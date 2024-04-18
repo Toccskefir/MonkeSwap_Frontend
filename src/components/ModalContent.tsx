@@ -8,13 +8,13 @@ interface ModalProps {
 
 function ModalContent({children, onClose}: ModalProps) {
     return (
-        <div className="inset-0 flex justify-center items-center transition-colors">
-            <div className="bg-white rounded-xl shadow p-6 transition-all">
+        <div>
+            <div className="bg-white rounded-xl shadow p-6 transition-all relative">
                 <button
                     onClick={onClose}
-                    className="absolute p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
+                    className="absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
                 >
-                    <FaXmark />
+                        <FaXmark />
                 </button>
                 {children}
             </div>

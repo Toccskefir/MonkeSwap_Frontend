@@ -25,11 +25,11 @@ function ItemCard(props: ItemCardProps) {
                              alt="card picture"/>
                         <div className="px-6 py-4">
                             <div className="font-bold text-md mb-5 h-20 w-full p-no-overflow-title">{props.item.title}</div>
-                            <FaRegEye className="absolute right-3 bottom-4_5"/>
-                            <p className="absolute font-medium text-sm right-9 bottom-0">{props.item.views}</p>
-                            <div className="absolute columns-5 justify-center bottom-6"><PriceTier tier={props.item.priceTier}/></div>
+                            <FaRegEye className="absolute right-2.5 bottom-4_5"/>
+                            <p className="absolute font-medium text-sm right-8 bottom-0">{props.item.views}</p>
+                            <div className="absolute columns-5 bottom-8"><PriceTier tier={props.item.priceTier}/></div>
+                            </div>
                         </div>
-                    </div>
                     <div className="absolute h-card-backside w-card-backside rounded bg-white p-12 [transform:rotateY(180deg)] [backface-visibility:hidden]">
                         <div className="flex flex-col justify-center">
                             <p className="text-base font-bold max-w-1 p-no-overflow-description">{props.item.description}</p>
