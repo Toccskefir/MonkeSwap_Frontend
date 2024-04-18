@@ -83,26 +83,32 @@ function UpdateItem() {
 
     function handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('itemPicture', selectedPicture ? selectedPicture : new Blob([itemPicture]));
-        formData.append('description', description);
-        formData.append('category', category as string);
-        formData.append('priceTier', priceTier.toString());
+        if (title.trim() === '') {
+            setErrorMessage('Title is empty');
+        } else if (description.trim() === '') {
+            setErrorMessage('Description is empty');
+        } else {
+            const formData = new FormData();
+            formData.append('title', title.trim());
+            formData.append('itemPicture', selectedPicture ? selectedPicture : new Blob([itemPicture]));
+            formData.append('description', description.trim());
+            formData.append('category', category.trim() as string);
+            formData.append('priceTier', priceTier.toString());
 
-        axios.put('item/' + itemId, formData)
-            .then((response) => {
-                const updatedIndex = userItems.findIndex(item => item.id === response.data.id);
-                const updatedItems = [...userItems];
-                updatedItems[updatedIndex] = response.data;
-                setUserItems(updatedItems);
-                navigate('/inventory');
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setErrorMessage(error.response.data);
-                }
-            });
+            axios.put('item/' + itemId, formData)
+                .then((response) => {
+                    const updatedIndex = userItems.findIndex(item => item.id === response.data.id);
+                    const updatedItems = [...userItems];
+                    updatedItems[updatedIndex] = response.data;
+                    setUserItems(updatedItems);
+                    navigate('/inventory');
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setErrorMessage(error.response.data);
+                    }
+                });
+        }
     }
 
     function handleModalClose() {
@@ -111,7 +117,7 @@ function UpdateItem() {
 
     function handleItemPictureChange(files: FileList | null) {
         if ( files && files.length > 0) {
-            setSelectedPicture(data => files[0]);
+            setSelectedPicture(files[0]);
         }
     }
 
@@ -138,10 +144,9 @@ function UpdateItem() {
                             <label className="font-semibold">
                                 Picture
                             </label>
-                            <div className="form-group">
+                            <div>
                                 <input
                                     type="file"
-                                    id="inputImage"
                                     className="mb-3"
                                     accept="image/*"
                                     onChange={(event) => handleItemPictureChange(event.target.files)}
@@ -151,10 +156,10 @@ function UpdateItem() {
                             <label className="font-semibold">
                                 Title
                             </label>
-                            <div className="form-group">
+                            <div>
                                 <input
                                     type="text"
-                                    id="inputTitle"
+                                    maxLength={40}
                                     className="mb-3 pl-2 border-2 border-gray-300 rounded-xl pt-1 pb-1 w-80"
                                     placeholder="Golden monkey"
                                     value={title}
@@ -165,20 +170,20 @@ function UpdateItem() {
                             <label className="font-semibold">
                                 Description
                             </label>
-                            <div className="form-group">
-                    <textarea
-                        id="inputDescription"
-                        className="mb-3 pl-2 pt-1 border-2 border-gray-300 rounded-xl w-80 h-32"
-                        placeholder="A monkey made of gold..."
-                        value={description}
-                        onChange={event => setDescription(event.target.value)}
-                    />
+                            <div>
+                                <textarea
+                                    id="inputDescription"
+                                    className="mb-3 pl-2 pt-1 border-2 border-gray-300 rounded-xl w-80 h-32"
+                                    placeholder="A monkey made of gold..."
+                                    value={description}
+                                    onChange={event => setDescription(event.target.value)}
+                                />
                             </div>
 
                             <label className="font-semibold">
                                 Category
                             </label>
-                            <div className="form-group">
+                            <div>
                                 <select
                                     className="mb-3 pl-1 pr-2 border-2 border-gray-300 rounded-xl"
                                     id="inputCategory"
@@ -222,7 +227,7 @@ function UpdateItem() {
                                     onClick={() => setPriceTier(5)}/>
                             </div>
 
-                            <p className="text-red-600 mt-3">sSADADADDA{errorMessage}</p>
+                            <p className="text-red-600 mt-3">{errorMessage}</p>
                             <button type="submit" className="active:scale-[.98] active:duration-75
                     hover:scale-[1.01] ease-in-out transition-all w-52 py-2 rounded-xl bg-primary-yellow
                     text-yellow-900 text-lg font-bold">Update
