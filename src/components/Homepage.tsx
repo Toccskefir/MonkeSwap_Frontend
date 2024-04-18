@@ -2,23 +2,40 @@ import React, {useContext, useEffect, useState} from "react";
 import ItemCard from "./ItemCard";
 import {HttpContext} from "../providers/HttpProvider";
 import categoryList from "../constants/categoryList";
-import ItemCardWithIdData from "../interfaces/itemCardWithIdData";
+import {Modal} from "@mui/material";
+import ModalContent from "./ModalContent";
+import ItemData from "../interfaces/itemData";
+import PriceTier from "./PriceTier";
+import {UserDataContext} from "../contexts/UserDataContext";
 
 function Homepage() {
-    const [itemList, setItemList] = useState<ItemCardWithIdData[]>([]);
-
-    const [errorMessage, setErrorMessage] = useState('Advertised items will be displayed here');
-
     const axios = useContext(HttpContext);
+    const { userData } = useContext(UserDataContext);
+
+    const [itemList, setItemList] = useState<ItemData[]>([]);
+    const [incomingItem, setIncomingItem] = useState<ItemData>();
+    const [offeredItem, setOfferedItem] = useState<ItemData>();
+    const [comment, setComment] = useState('');
+    const [errorMessage, setErrorMessage] = useState('Advertised items will be displayed here');
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     useEffect(() => {
         loadCards();
     }, [axios]);
 
+    function handleModalClose() {
+        setOpenModal(false);
+    }
+
     function loadCards() {
         axios.get('items')
             .then((response) => {
                 setItemList(response.data);
+            })
+            .catch((error) => {
+                if(error.response) {
+                    setErrorMessage(error.response.data);
+                }
             });
     }
 
@@ -29,14 +46,36 @@ function Homepage() {
             axios.get('items/' + category)
                 .then((response) => {
                     setItemList(response.data);
+                })
+                .catch((error) => {
+                    if(error.response) {
+                        setErrorMessage(error.response.data);
+                    }
                 });
         }
     }
 
-    function handleButtonClick(item: ItemCardWithIdData) {
+    function handleButtonClick(item: ItemData) {
         axios.put('item/views/' + item.id)
             .then(() => {
+                setOpenModal(true);
+                setIncomingItem(item);
+            });
+    }
 
+    function handleOfferSend() {
+        axios.post('tradeoffer', {
+            offeredItem: offeredItem?.id,
+            incomingItem: incomingItem?.id,
+            comment: comment
+        }).then(() => {
+                axios.post('notification', {
+                    message: `${userData?.username} sent you a trade offer!`,
+                    type: 'NOTIFICATION',
+                    userId: incomingItem?.userId,
+                }).then(() => {
+                    handleModalClose();
+                });
             });
     }
 
@@ -79,6 +118,35 @@ function Homepage() {
                     ))}
             </div>
             }
+            <Modal open={openModal}>
+                <ModalContent onClose={handleModalClose}>
+                    <img src={`data:image/png;base64, ${incomingItem?.itemPicture}`} alt="incoming item picture"/>
+                    <label>
+                        Title
+                        <p>{incomingItem?.title}</p>
+                    </label>
+                    <label>
+                        Description
+                        <p>{incomingItem?.description}</p>
+                    </label>
+                    <label>
+                        Category
+                        <p>{incomingItem?.category}</p>
+                    </label>
+                    <label>
+                        Price Tier
+                        <PriceTier tier={incomingItem?.priceTier as number}/>
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Write a comment for your offer"
+                        value={comment}
+                        onChange={event => setComment(event.target.value)}
+                    />
+                    <button onClick={handleOfferSend}>Send offer</button>
+                </ModalContent>
+            </Modal>
         </div>
     );
 }
