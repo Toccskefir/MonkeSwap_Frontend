@@ -52,13 +52,7 @@ function TradeOffers() {
     if (type === 'INCOMING') {
         return (
             <>
-                <button
-                    /*className="active:scale-[.98] active:duration-75
-                                    hover:scale-[1.01] ease-in-out transition-all mt-72 mr-2 w-20 py-2 rounded-xl bg-primary-yellow
-                    text-yellow-900 text-lg font-bold col-span-2"*/
-                    onClick={handleTypeChangeIncoming}>
-                    Incoming offers
-                </button>
+                <button onClick={handleTypeChangeIncoming}>Incoming offers</button>
                 <button onClick={handleTypeChangeOffered}>Outgoing offers</button>
 
                 {incomingOffers.length === 0 ?
@@ -66,7 +60,9 @@ function TradeOffers() {
                         {errorMessage}
                     </div> :
                     <div>
-                        {incomingOffers.map((tradeOffer) => (
+                        {incomingOffers
+                            .sort((tradeOfferA, tradeOfferB) => tradeOfferB.id - tradeOfferA.id)
+                            .map((tradeOffer) => (
                             <TradeOffer
                                 key={tradeOffer.id}
                                 tradeOffer={tradeOffer}
@@ -90,7 +86,9 @@ function TradeOffers() {
                         {errorMessage}
                     </div> :
                     <div>
-                        {offeredOffers.map((tradeOffer) => (
+                        {offeredOffers
+                            .sort((tradeOfferA, tradeOfferB) => tradeOfferB.id - tradeOfferA.id)
+                            .map((tradeOffer) => (
                             <TradeOffer
                                 key={tradeOffer.id}
                                 tradeOffer={tradeOffer}

@@ -1,5 +1,5 @@
 import TradeOfferData from "../interfaces/tradeOfferData";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {HttpContext} from "../providers/HttpProvider";
 import {FaArrowDown, FaArrowUp} from "react-icons/fa";
 import {Modal} from "@mui/material";
@@ -20,6 +20,11 @@ function TradeOffer(props: TradeOfferProps) {
     const [incomingItemData, setIncomingItemData] = useState<ItemData>();
     const [offeredItemData, setOfferedItemData] = useState<ItemData>();
     const [openModal, setOpenModal] = useState(false);
+
+    useEffect(() => {
+        getIncomingItemData();
+        getOfferedItemData();
+    }, []);
 
     function handleModalClose() {
         setOpenModal(false);
@@ -84,15 +89,9 @@ function TradeOffer(props: TradeOfferProps) {
         handleModalClose();
     }
 
-    function openTradeOffer() {
-        getIncomingItemData();
-        getOfferedItemData();
-        setOpenModal(true);
-    }
-
     return (
         <>
-            <div className="w-full" onClick={openTradeOffer}>
+            <div className="w-full" onClick={() => setOpenModal(true)}>
                 <div
                     className="border border-gray-300 rounded-md p-4 m-2.5 flex justify-start shadow-md items-center cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     {props.type === 'INCOMING' ?
@@ -100,7 +99,9 @@ function TradeOffer(props: TradeOfferProps) {
                         <FaArrowUp className="text-green-700"/>
                     }
                     <div className="font-bold text-xl ml-6 text-black">
-                        {props.tradeOffer.comment}
+                        {props.type === 'INCOMING' ?
+                            `Your ${incomingItemData?.title} has an offer for a ${offeredItemData?.title}` :
+                            `You offered a ${offeredItemData?.title} for a ${incomingItemData?.title}`}
                     </div>
                 </div>
             </div>
@@ -111,6 +112,7 @@ function TradeOffer(props: TradeOfferProps) {
                     <p>{incomingItemData?.description}</p>
                     <p>{incomingItemData?.priceTier}</p>
                     <p>{incomingItemData?.category}</p>
+                    <p>{props.tradeOffer.comment}</p>
                     {props.type === 'INCOMING' && <button onClick={acceptOffer}>Accept</button>}
                     {props.type === 'INCOMING' && <button onClick={declineOffer}>Decline</button>}
                     {props.type === 'OFFERED' && <button onClick={deleteOffer}>Delete offer</button>}
