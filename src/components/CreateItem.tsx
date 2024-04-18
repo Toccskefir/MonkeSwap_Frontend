@@ -63,24 +63,32 @@ function CreateItem() {
 
     async function handleSubmitEvent(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('title', title);
-        if (itemPicture) {
-            formData.append('itemPicture', itemPicture);
-        }
-        formData.append('description', description);
-        formData.append('category', category as string);
-        formData.append('priceTier', priceTier.toString());
+        if (!itemPicture) {
+            setErrorMessage('Picture is empty');
+        } else if (title.trim() === '') {
+            setErrorMessage('Title is empty');
+        } else if (description.trim() === '') {
+            setErrorMessage('Description is empty');
+        } else {
+            const formData = new FormData();
+            formData.append('title', title.trim());
+            if (itemPicture) {
+                formData.append('itemPicture', itemPicture);
+            }
+            formData.append('description', description.trim());
+            formData.append('category', category.trim() as string);
+            formData.append('priceTier', priceTier.toString());
 
-        await axios.post('item', formData)
-            .then(async (response) => {
-                setUserItems([...userItems, response.data]);
-                navigate('/inventory');
-            }).catch((error) => {
-                if (error.response) {
-                    setErrorMessage(error.response.data);
-                }
-            });
+            await axios.post('item', formData)
+                .then(async (response) => {
+                    setUserItems([...userItems, response.data]);
+                    navigate('/inventory');
+                }).catch((error) => {
+                    if (error.response) {
+                        setErrorMessage(error.response.data);
+                    }
+                });
+        }
     }
 
     function handleItemPictureChange(files: FileList | null) {
@@ -91,104 +99,100 @@ function CreateItem() {
 
     return(
         <>
-        <div className="flex flex-col w-fit font-poppins overflow-hidden columns-3">
-            <div className="bg-white px-10 py-10 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
-                <h1 className="font-bold">Create a new item</h1>
-                <div className="w-full flex">
-                    <form onSubmit={handleSubmitEvent}>
-                        <label className="font-semibold">
-                            Picture
-                        </label>
-                        <div className="form-group">
-                            <input
-                                type="file"
-                                id="inputImage"
-                                className="mb-3"
-                                accept="image/*"
-                                onChange={(event) => handleItemPictureChange(event.target.files)}
-                            />
-                        </div>
+            <div className="flex flex-col w-fit font-poppins overflow-hidden columns-3">
+                <div className="bg-white px-10 py-10 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
+                    <h1 className="font-bold">Create a new item</h1>
+                    <div className="w-full flex">
+                        <form onSubmit={handleSubmitEvent}>
+                            <label className="font-semibold">
+                                Picture
+                            </label>
+                            <div>
+                                <input
+                                    type="file"
+                                    className="mb-3"
+                                    accept="image/*"
+                                    onChange={(event) => handleItemPictureChange(event.target.files)}
+                                />
+                            </div>
 
-                        <label className="font-semibold">
-                            Title
-                        </label>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                id="inputTitle"
-                                className="mb-3 pl-2 border-2 border-gray-300 rounded-xl pt-1 pb-1 w-80"
-                                placeholder="Golden monkey"
-                                value={title}
-                                onChange={event => setTitle(event.target.value)}
-                            />
-                        </div>
+                            <label className="font-semibold">
+                                Title
+                            </label>
+                            <div>
+                                <input
+                                    type="text"
+                                    maxLength={40}
+                                    className="mb-3 pl-2 border-2 border-gray-300 rounded-xl pt-1 pb-1 w-80"
+                                    placeholder="Golden monkey"
+                                    value={title}
+                                    onChange={event => setTitle(event.target.value)}
+                                />
+                            </div>
 
-                        <label className="font-semibold">
-                            Description
-                        </label>
-                        <div className="form-group">
-                    <textarea
-                        id="inputDescription"
-                        className="mb-3 pl-2 pt-1 border-2 border-gray-300 rounded-xl w-80 h-32"
-                        placeholder="A monkey made of gold..."
-                        value={description}
-                        onChange={event => setDescription(event.target.value)}
-                    />
-                        </div>
+                            <label className="font-semibold">
+                                Description
+                            </label>
+                            <div>
+                                <textarea
+                                    className="mb-3 pl-2 pt-1 border-2 border-gray-300 rounded-xl w-80 h-32"
+                                    placeholder="A monkey made of gold..."
+                                    value={description}
+                                    onChange={event => setDescription(event.target.value)}
+                                />
+                            </div>
 
-                        <label className="font-semibold">
-                            Category
-                        </label>
-                        <div className="form-group">
-                            <select
-                                className="mb-3 pl-1 pr-2 border-2 border-gray-300 rounded-xl"
-                                id="inputCategory"
-                                value={category}
-                                onChange={event => setCategory(event.target.value)}
-                            >
-                                {categoryList.map(item => (
-                                    <option
-                                        key={item}
-                                        value={item.toUpperCase().replaceAll(' ', '')}
-                                    >
-                                        {item}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                            <label className="font-semibold">
+                                Category
+                            </label>
+                            <div>
+                                <select
+                                    className="mb-3 pl-1 pr-2 border-2 border-gray-300 rounded-xl"
+                                    value={category}
+                                    onChange={event => setCategory(event.target.value)}
+                                >
+                                    {categoryList.map(item => (
+                                        <option
+                                            key={item}
+                                            value={item.toUpperCase().replaceAll(' ', '')}
+                                        >
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
 
-                        <label className="font-semibold">
-                            Price Tier
-                        </label>
-                        <div className="columns-5 w-fit">
-                            <img
-                                className="cursor-pointer h-20"
-                                src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
-                            <img
-                                className="cursor-pointer h-20"
-                                src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
-                            <img
-                                className="cursor-pointer h-20"
-                                src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
-                            <img
-                                className="cursor-pointer h-20"
-                                src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
-                            <img
-                                className="cursor-pointer h-20"
-                                src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
-                        </div>
+                            <label className="font-semibold">
+                                Price Tier
+                            </label>
+                            <div className="columns-5 w-fit">
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={peeled_banana} alt="banana" onClick={() => setPriceTier(1)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana2 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(2)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana3 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(3)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana4 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(4)}/>
+                                <img
+                                    className="cursor-pointer h-20"
+                                    src={banana5 ? peeled_banana : banana} alt="banana" onClick={() => setPriceTier(5)}/>
+                            </div>
 
-                        <p className="text-red-600 mt-3">sSADADADDA{errorMessage}</p>
-                        <button type="submit" className="active:scale-[.98] active:duration-75
-                    hover:scale-[1.01] ease-in-out transition-all w-52 py-2 rounded-xl bg-primary-yellow
-                    text-yellow-900 text-lg font-bold">Create
-                        </button>
-                    </form>
-
+                            <p className="text-red-600 mt-3">{errorMessage}</p>
+                            <button type="submit" className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all w-52 py-2 rounded-xl bg-primary-yellow
+                        text-yellow-900 text-lg font-bold">Create
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
             <div className="absolute right-80 bottom-0">
                 <ItemCard
                     item={{
@@ -201,7 +205,7 @@ function CreateItem() {
                     buttonText="Example"
                 />
             </div>
-            </>
+        </>
     );
 }
 
