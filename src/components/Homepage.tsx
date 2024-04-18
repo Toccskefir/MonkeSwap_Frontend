@@ -10,13 +10,13 @@ import {UserDataContext} from "../contexts/UserDataContext";
 
 function Homepage() {
     const axios = useContext(HttpContext);
-    const { userData } = useContext(UserDataContext);
+    const { userData, userItems } = useContext(UserDataContext);
 
     const [itemList, setItemList] = useState<ItemData[]>([]);
     const [incomingItem, setIncomingItem] = useState<ItemData>();
-    const [offeredItem, setOfferedItem] = useState<ItemData>();
     const [comment, setComment] = useState('');
     const [errorMessage, setErrorMessage] = useState('Advertised items will be displayed here');
+    const [errorMessageOffer, setErrorMessageOffer] = useState('');
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     useEffect(() => {
@@ -55,7 +55,7 @@ function Homepage() {
         }
     }
 
-    function handleButtonClick(item: ItemData) {
+    function handleViewButtonClick(item: ItemData) {
         axios.put('item/views/' + item.id)
             .then(() => {
                 setOpenModal(true);
@@ -63,9 +63,20 @@ function Homepage() {
             });
     }
 
-    function handleOfferSend() {
+    function handleItemReport() {
+        axios.put('item/reports/' + incomingItem?.id)
+            .then(() => {
+                handleModalClose();
+            }).catch((error) => {
+                if (error.response) {
+                    setErrorMessageOffer(error.response.data);
+                }
+        });
+    }
+
+    function handleOfferSend(item: ItemData) {
         axios.post('tradeoffer', {
-            offeredItem: offeredItem?.id,
+            offeredItem: item.id,
             incomingItem: incomingItem?.id,
             comment: comment
         }).then(() => {
@@ -75,8 +86,16 @@ function Homepage() {
                     userId: incomingItem?.userId,
                 }).then(() => {
                     handleModalClose();
+                }).catch((error) => {
+                    if (error.response) {
+                        setErrorMessageOffer(error.response.data);
+                    }
                 });
-            });
+            }).catch((error) => {
+                if (error.response) {
+                    setErrorMessageOffer(error.response.data);
+                }
+        });
     }
 
     return(
@@ -112,7 +131,7 @@ function Homepage() {
                     .map((item) => (
                         <ItemCard
                             item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
-                            onButtonClick={() => handleButtonClick(item)}
+                            onButtonClick={() => handleViewButtonClick(item)}
                             buttonText="View"
                         />
                     ))}
@@ -120,6 +139,7 @@ function Homepage() {
             }
             <Modal open={openModal}>
                 <ModalContent onClose={handleModalClose}>
+                    <button onClick={handleItemReport}>Report item</button>
                     <img src={`data:image/png;base64, ${incomingItem?.itemPicture}`} alt="incoming item picture"/>
                     <label>
                         Title
@@ -137,6 +157,7 @@ function Homepage() {
                         Price Tier
                         <PriceTier tier={incomingItem?.priceTier as number}/>
                     </label>
+                    <p>{errorMessageOffer}</p>
 
                     <input
                         type="text"
@@ -144,7 +165,15 @@ function Homepage() {
                         value={comment}
                         onChange={event => setComment(event.target.value)}
                     />
-                    <button onClick={handleOfferSend}>Send offer</button>
+                    {userItems
+                        .sort((itemA, itemB) => itemB.id - itemA.id)
+                        .map((item) => (
+                            <ItemCard
+                                item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
+                                onButtonClick={() => handleOfferSend(item)}
+                                buttonText="Send offer"
+                            />
+                        ))}
                 </ModalContent>
             </Modal>
         </div>
