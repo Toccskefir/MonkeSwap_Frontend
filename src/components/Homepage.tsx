@@ -167,7 +167,15 @@ function Homepage() {
                         onChange={event => setComment(event.target.value)}
                     />
                     {userItems
-                        .sort((itemA, itemB) => itemB.id - itemA.id)
+                        .sort((itemA, itemB) => {
+                            if (itemA.state === 'DISABLED' && itemB.state !== 'DISABLED') {
+                                return 1; // itemA comes after itemB
+                            } else if (itemA.state !== 'DISABLED' && itemB.state === 'DISABLED') {
+                                return -1; // itemA comes before itemB
+                            } else {
+                                return itemB.id - itemA.id; // default sorting by id
+                            }
+                        })
                         .map((item) => (
                             <ItemCard
                                 item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
