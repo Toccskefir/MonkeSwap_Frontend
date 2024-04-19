@@ -30,7 +30,7 @@ function Footer() {
                         className="grid lg:grid-cols-4 md:grid-cols-2 max-md:grid-cols-1 max-md:justify-items-center grid-cols-1 p-20 pt-44">
                         <div className="flex flex-col gap-4 max-md:mr-5">
                             <Link to={"/"}><img className="h-20 w-20 ml-7" src="https://i.imgur.com/dWypbxr.png"
-                                                alt="monkeswap_logo"/></Link>
+                                                alt="monkeswap_logo" onClick={scrollToTop}/></Link>
                             <h4 className="text-2xl text-black">MonkeSwap&trade;</h4>
                         </div>
 
