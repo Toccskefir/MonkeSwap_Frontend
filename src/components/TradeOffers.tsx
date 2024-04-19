@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import {HttpContext} from "../providers/HttpProvider";
 import TradeOfferData from "../interfaces/tradeOfferData";
 import TradeOffer from "./TradeOffer";
+import {FaArrowDown, FaArrowUp} from "react-icons/fa";
 
 function TradeOffers() {
     const axios = useContext(HttpContext);
@@ -52,14 +53,20 @@ function TradeOffers() {
     if (type === 'INCOMING') {
         return (
             <>
-                <button onClick={handleTypeChangeIncoming}>Incoming offers</button>
-                <button onClick={handleTypeChangeOffered}>Outgoing offers</button>
+                <div className="flex mt-4 mb-4 justify-center">
+                <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all w-52 py-2 px-2 rounded-xl bg-yellow-500
+                        text-yellow-900 text-lg font-bold flex" onClick={handleTypeChangeIncoming}>Incoming offers<FaArrowDown className="h-6 ml-9"/></button>
+                <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all w-52 py-2 px-2 rounded-xl bg-primary-yellow
+                        text-yellow-900 text-lg font-bold flex ml-7" onClick={handleTypeChangeOffered}>Outgoing offers<FaArrowUp className="h-6 ml-9"/></button>
+                </div>
 
                 {incomingOffers.length === 0 ?
                     <div className="text-4xl text-center text-black m-5">
                         {errorMessage}
                     </div> :
-                    <div>
+                    <div  className="mb-72">
                         {incomingOffers
                             .sort((tradeOfferA, tradeOfferB) => tradeOfferB.id - tradeOfferA.id)
                             .map((tradeOffer) => (
@@ -78,10 +85,18 @@ function TradeOffers() {
     } else {
         return (
             <>
-                <button onClick={handleTypeChangeIncoming}>Incoming offers</button>
-                <button onClick={handleTypeChangeOffered}>Outgoing offers</button>
+                <div className="flex mt-4 mb-4 justify-center">
+                    <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all w-52 py-2 px-2 rounded-xl bg-primary-yellow
+                        text-yellow-900 text-lg font-bold flex" onClick={handleTypeChangeIncoming}>Incoming
+                        offers<FaArrowDown className="h-6 ml-9"/></button>
+                    <button className="active:scale-[.98] active:duration-75
+                        hover:scale-[1.01] ease-in-out transition-all w-52 py-2 px-2 rounded-xl bg-yellow-500
+                        text-yellow-900 text-lg font-bold flex ml-3" onClick={handleTypeChangeOffered}>Outgoing
+                        offers<FaArrowUp className="h-6 ml-9"/></button>
+                </div>
 
-                { offeredOffers.length === 0 ?
+                {offeredOffers.length === 0 ?
                     <div className="text-4xl text-center text-black m-5">
                         {errorMessage}
                     </div> :
@@ -89,13 +104,13 @@ function TradeOffers() {
                         {offeredOffers
                             .sort((tradeOfferA, tradeOfferB) => tradeOfferB.id - tradeOfferA.id)
                             .map((tradeOffer) => (
-                            <TradeOffer
-                                key={tradeOffer.id}
-                                tradeOffer={tradeOffer}
-                                type={type}
-                                onDelete={getOffered}
-                            />
-                        ))}
+                                <TradeOffer
+                                    key={tradeOffer.id}
+                                    tradeOffer={tradeOffer}
+                                    type={type}
+                                    onDelete={getOffered}
+                                />
+                            ))}
                     </div>
                 }
             </>

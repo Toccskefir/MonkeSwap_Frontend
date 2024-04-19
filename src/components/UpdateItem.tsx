@@ -135,7 +135,7 @@ function UpdateItem() {
     }
 
     return(
-        <>
+        <div className="grid grid-cols-2">
             <div className="flex flex-col w-fit font-poppins overflow-hidden columns-3">
                 <div className="bg-white px-10 py-10 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
                     <h1 className="font-bold">Update an item</h1>
@@ -245,7 +245,7 @@ function UpdateItem() {
                         <Modal open={openModal} onClose={handleModalClose} className="grid h-screen place-items-center">
                             <ModalContent onClose={handleModalClose}>
                                 <div className="text-center w-56">
-                                    <FaTrashCan size={56} className="mx-auto text-red-500" />
+                                    <FaTrashCan size={56} className="mx-auto text-red-500"/>
                                     <div className="mx-auto my-4 w-48">
                                         <h3 className="text-lg font-black text-gray-800">Confirm Delete</h3>
                                         <p className="text-sm text-gray-500">
@@ -255,7 +255,8 @@ function UpdateItem() {
                                     <div className="flex gap-4 font-semibold">
                                         <button className="active:scale-[.98] active:duration-75
                     hover:scale-[1.01] ease-in-out transition-all rounded-xl bg-red-600 w-full py-2 text-white"
-                                                onClick={handleItemDelete}>Delete</button>
+                                                onClick={handleItemDelete}>Delete
+                                        </button>
                                         <button
                                             className="active:scale-[.98] active:duration-75
                     hover:scale-[1.01] ease-in-out w-full py-2"
@@ -271,7 +272,7 @@ function UpdateItem() {
                 </div>
             </div>
 
-            <div className="absolute right-80 bottom-0">
+            <div className="place-content-center">
                 <ItemCard
                     item={{
                         id: 0,
@@ -279,12 +280,13 @@ function UpdateItem() {
                         itemPicture: selectedPicture ? URL.createObjectURL(selectedPicture) : `data:image/png;base64, ${itemPicture}`,
                         description: description!.trim() === '' ? 'A monkey made of gold...' : description,
                         priceTier: priceTier,
+                        views: 0
                     }}
-                    showViews={false}
+                    showViews={true}
                     buttonText="Example"
                 />
             </div>
-        </>
+        </div>
     );
 }
 

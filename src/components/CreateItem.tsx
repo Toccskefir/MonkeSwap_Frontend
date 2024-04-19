@@ -98,7 +98,7 @@ function CreateItem() {
     }
 
     return(
-        <>
+        <div className="grid grid-cols-2">
             <div className="flex flex-col w-fit font-poppins overflow-hidden columns-3">
                 <div className="bg-white px-10 py-10 rounded-3xl border-2 border-gray-200 mt-3 ml-5 mr-5">
                     <h1 className="font-bold">Create a new item</h1>
@@ -193,7 +193,7 @@ function CreateItem() {
                     </div>
                 </div>
             </div>
-            <div className="absolute right-80 bottom-0">
+            <div className="place-content-center">
                 <ItemCard
                     item={{
                         id: 0,
@@ -201,12 +201,13 @@ function CreateItem() {
                         itemPicture: itemPicture ? URL.createObjectURL(itemPicture) : basic_item_card_pic,
                         description: description.trim() === '' ? 'A monkey made of gold...' : description,
                         priceTier: priceTier,
+                        views: 0
                     }}
-                    showViews={false}
+                    showViews={true}
                     buttonText="Example"
                 />
             </div>
-        </>
+        </div>
     );
 }
 
