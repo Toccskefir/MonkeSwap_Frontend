@@ -18,7 +18,7 @@ function ItemCard(props: ItemCardProps) {
     }
 
     return (
-            <div className="h-96 w-80 [perspective:1000px] ml-5 mt-5 mb-24 font-poppins" onClick={handleFlip}>
+            <div className={`h-96 w-80 [perspective:1000px] ml-5 mt-5 mb-24 font-poppins ${props.item.state === 'DISABLED' && "opacity-45"}`} onClick={handleFlip}>
                 <div className={`rounded-xl transition-all duration-500 [transform-style:preserve-3d] ${isFlipped && "[transform:rotateY(180deg)]"}`}>
                     <div className="absolute rounded overflow-hidden shadow-lg max-w-sm">
                         <img className="w-80 h-72"
@@ -41,7 +41,8 @@ function ItemCard(props: ItemCardProps) {
                             <button
                                 className="active:scale-[.98] active:duration-75
                     hover:scale-[1.01] ease-in-out transition-all duration-100 bg-primary-yellow rounded-xl py-2 font-bold text-lg text-yellow-900 mt-2"
-                                onClick={props.onButtonClick}>
+                                onClick={props.onButtonClick}
+                                disabled={props.item.state === 'DISABLED' && true}>
                                     {props.buttonText}
                             </button>
                         </div>
