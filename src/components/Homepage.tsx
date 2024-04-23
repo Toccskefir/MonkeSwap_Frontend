@@ -26,6 +26,7 @@ function Homepage() {
 
     function handleModalClose() {
         setOpenModal(false);
+        setErrorMessageOffer('');
     }
 
     function loadCards() {
@@ -167,8 +168,8 @@ function Homepage() {
                                 <p className="text-wrap w-72">{incomingItem?.description}</p>
                                 <label className="font-bold">
                                     Category:
+                                    <p className="font-normal">{incomingItem?.category}</p>
                                 </label>
-                                <p>{incomingItem?.category}</p>
                                 <label className="font-bold">
                                     Price Tier:
                                     <div className="columns-5 w-fit">
