@@ -7,6 +7,7 @@ import ModalContent from "./ModalContent";
 import ItemData from "../interfaces/itemData";
 import PriceTier from "./PriceTier";
 import {UserDataContext} from "../contexts/UserDataContext";
+import {FaFlag} from "react-icons/fa";
 
 function Homepage() {
     const axios = useContext(HttpContext);
@@ -138,52 +139,69 @@ function Homepage() {
                     ))}
             </div>
             }
-            <Modal open={openModal}>
+            <Modal open={openModal} className="font-poppins m-2">
                 <ModalContent onClose={handleModalClose}>
-                    <button onClick={handleItemReport}>Report item</button>
-                    <img src={`data:image/png;base64, ${incomingItem?.itemPicture}`} alt="incoming item picture"/>
-                    <label>
-                        Title
-                        <p>{incomingItem?.title}</p>
-                    </label>
-                    <label>
-                        Description
-                        <p>{incomingItem?.description}</p>
-                    </label>
-                    <label>
-                        Category
-                        <p>{incomingItem?.category}</p>
-                    </label>
-                    <label>
-                        Price Tier
-                        <PriceTier tier={incomingItem?.priceTier as number}/>
-                    </label>
-                    <p>{errorMessageOffer}</p>
+                    <div className="flex pt-5 pb-8 px-2">
+                        <div className="flex w-1/2 mr-5">
+                            <div>
+                                <img src={`data:image/png;base64, ${incomingItem?.itemPicture}`}
+                                     alt="incoming item picture"
+                                     className="w-96 h-96 mb-3 rounded-xl "/>
+                                <p className="text-red-600 mt-3">{errorMessageOffer}</p>
 
-                    <input
-                        type="text"
-                        placeholder="Write a comment for your offer"
-                        value={comment}
-                        onChange={event => setComment(event.target.value)}
-                    />
-                    {userItems
-                        .sort((itemA, itemB) => {
-                            if (itemA.state === 'DISABLED' && itemB.state !== 'DISABLED') {
-                                return 1; // itemA comes after itemB
-                            } else if (itemA.state !== 'DISABLED' && itemB.state === 'DISABLED') {
-                                return -1; // itemA comes before itemB
-                            } else {
-                                return itemB.id - itemA.id; // default sorting by id
-                            }
-                        })
-                        .map((item) => (
-                            <ItemCard
-                                item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
-                                onButtonClick={() => handleOfferSend(item)}
-                                showViews={false}
-                                buttonText="Send offer"
-                            />
-                        ))}
+                                <div className="flex flex-col">
+                                    <input
+                                        type="text"
+                                        placeholder="Write a comment for your trade offer"
+                                        className="pl-2 pt-1 pb-1 border-2 border-gray-300 rounded-xl w-96 h-12"
+                                        value={comment}
+                                        onChange={event => setComment(event.target.value)}
+                                    />
+                                    <button onClick={handleItemReport} className="active:scale-[.98] active:duration-75
+                    hover:scale-[1.01] ease-in-out transition-all w-36 py-2 pl-3 mt-3 rounded-xl bg-red-600
+                    text-white text-base font-bold flex">Report item<FaFlag className="h-6 ml-2"/></button>
+                                </div>
+                            </div>
+                            <div className="flex flex-col ml-3">
+                                <p className="font-bold text-2xl text-wrap w-72">{incomingItem?.title}</p>
+                                <p className="text-wrap w-72">{incomingItem?.description}</p>
+                                <label className="font-bold">
+                                    Category:
+                                </label>
+                                <p>{incomingItem?.category}</p>
+                                <label className="font-bold">
+                                    Price Tier:
+                                    <div className="columns-5 w-fit">
+                                        <PriceTier tier={incomingItem?.priceTier as number}/>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div className="-mt-12 overflow-x-scroll overflow-y-hidden h-fit">
+                            <div className="flex flex-nowrap">
+                            {userItems
+                                .sort((itemA, itemB) => {
+                                    if (itemA.state === 'DISABLED' && itemB.state !== 'DISABLED') {
+                                        return 1; // itemA comes after itemB
+                                    } else if (itemA.state !== 'DISABLED' && itemB.state === 'DISABLED') {
+                                        return -1; // itemA comes before itemB
+                                    } else {
+                                        return itemB.id - itemA.id; // default sorting by id
+                                    }
+                                })
+                                .map((item) => (
+                                    <div className="pr-3">
+                                    <ItemCard
+                                        item={{...item, itemPicture: `data:image/png;base64, ${item.itemPicture}`}}
+                                        onButtonClick={() => handleOfferSend(item)}
+                                        showViews={false}
+                                        buttonText="Send offer"
+                                    />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        </div>
                 </ModalContent>
             </Modal>
         </div>
