@@ -147,7 +147,7 @@ function Homepage() {
                             <div>
                                 <img src={`data:image/png;base64, ${incomingItem?.itemPicture}`}
                                      alt="incoming item picture"
-                                     className="w-96 h-96 mb-3 rounded-xl "/>
+                                     className="w-96 h-96 mb-3 rounded-xl"/>
                                 <p className="text-red-600 mt-3">{errorMessageOffer}</p>
 
                                 <div className="flex flex-col">
