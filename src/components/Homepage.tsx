@@ -140,7 +140,7 @@ function Homepage() {
                     ))}
             </div>
             }
-            <Modal open={openModal} className="font-poppins m-2">
+            <Modal open={openModal} onClose={handleModalClose} className="font-poppins m-2 h-screen">
                 <ModalContent onClose={handleModalClose}>
                     <div className="flex pt-5 pb-8 px-2">
                         <div className="flex w-1/2 mr-5">
@@ -164,8 +164,8 @@ function Homepage() {
                                 </div>
                             </div>
                             <div className="flex flex-col ml-3">
-                                <p className="font-bold text-2xl text-wrap w-72">{incomingItem?.title}</p>
-                                <p className="text-wrap w-72">{incomingItem?.description}</p>
+                                <p className="font-bold text-2xl w-72 break-words">{incomingItem?.title}</p>
+                                <p className="w-72 break-words">{incomingItem?.description}</p>
                                 <label className="font-bold">
                                     Category:
                                     <p className="font-normal">{incomingItem?.category}</p>
@@ -178,7 +178,7 @@ function Homepage() {
                                 </label>
                             </div>
                         </div>
-                        <div className="-mt-12 overflow-x-scroll overflow-y-hidden h-fit">
+                        <div className="-mt-12 overflow-x-auto overflow-y-hidden h-fit">
                             <div className="flex flex-nowrap">
                             {userItems
                                 .sort((itemA, itemB) => {
