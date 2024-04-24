@@ -112,9 +112,9 @@ function TradeOffer(props: TradeOfferProps) {
                     <div className="flex pt-5 pb-8 px-2">
                         <div className="flex mr-5">
                             <div>
-                                <p className="font-semibold -mt-10">Your item</p>
+                                <p className="font-semibold -mt-10">Incoming item</p>
                                 <img src={`data:image/png;base64, ${incomingItemData?.itemPicture}`}
-                                     alt="incoming item picture"
+                                     alt="item picture"
                                      className="w-96 h-96 rounded-xl"/>
                             </div>
                             <div className="flex flex-col ml-3">
@@ -142,7 +142,7 @@ function TradeOffer(props: TradeOfferProps) {
                                 <div>
                                     <p className="font-semibold -mt-10">Offered item</p>
                                     <img src={`data:image/png;base64, ${offeredItemData?.itemPicture}`}
-                                         alt="incoming item picture"
+                                         alt="item picture"
                                          className="w-96 h-96 rounded-xl"/>
                                 </div>
                                 <div className="flex flex-col ml-3">
