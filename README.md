@@ -30,3 +30,9 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## How to use?
+
+### Register a new account
+https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/de4b2b8e-2527-404a-9210-cea6d7fe75be
+
