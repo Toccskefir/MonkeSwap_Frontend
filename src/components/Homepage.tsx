@@ -27,6 +27,7 @@ function Homepage() {
     function handleModalClose() {
         setOpenModal(false);
         setErrorMessageOffer('');
+        setComment('');
     }
 
     function loadCards() {
