@@ -33,6 +33,19 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## How to use?
 
-### Register a new account
-https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/de4b2b8e-2527-404a-9210-cea6d7fe75be
+### Register a new account then login
+https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/4c80f1b4-1891-4d2e-80aa-3af0bca7cb0a
 
+### Edit your profile
+https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/e1b9e410-2c13-4209-81d1-473eaa15e00f
+
+### Create and update an item
+https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/851a660c-7f70-47d2-8e64-c6c8f22b20b6
+
+### Send a trade offer
+https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/55ce7977-ef01-44c9-920c-d46840e1ec46
+
+### Manage trade offers
+https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/aa6c3a67-09f6-4243-8eab-504a13b1a214
+
+### Start trading today!
