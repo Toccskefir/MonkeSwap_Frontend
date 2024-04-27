@@ -1,11 +1,24 @@
 import {ReactNode} from "react";
 import {FaXmark} from "react-icons/fa6";
 
-interface ModalProps {
-    onClose: () => void,
-    children: ReactNode,
+/**
+ * Represents the props for the Modal component.
+ */
+export interface ModalProps {
+    /**
+     * Callback function invoked when the modal is closed.
+     */
+    onClose: () => void;
+
+    /**
+     * The content to be displayed within the modal.
+     */
+    children: ReactNode;
 }
 
+/**
+ * This component is responsible for the very basic default elements of every modal on the website.
+ */
 function ModalContent({children, onClose}: ModalProps) {
     return (
         <div>

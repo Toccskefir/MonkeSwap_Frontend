@@ -10,6 +10,10 @@ import ModalContent from "./ModalContent";
 import {Modal} from "@mui/material";
 import {FaTrashCan} from "react-icons/fa6";
 
+/**
+ * This component makes up the Update Item page, which is very similar to the Create Item page, but on this page
+ * instead of creating an item the user can update the data of a single item or even delete it.
+ */
 function UpdateItem() {
     const axios = useContext(HttpContext);
     const { userItems, setUserItems } = useContext(UserDataContext);

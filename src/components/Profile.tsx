@@ -8,6 +8,10 @@ import {FaUserSlash} from "react-icons/fa";
 import ModalContent from "./ModalContent";
 import {Modal} from "@mui/material";
 
+/**
+ * This component makes up the profile page, where the user can change all of the account's data including the
+ * profile picture and even the password. This page also has a modal which uses the ModalContent component.
+ */
 function Profile() {
     const {logout} = useContext(AuthContext);
     const axios = useContext(HttpContext);

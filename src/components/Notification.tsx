@@ -2,6 +2,9 @@ import NotificationData from "../interfaces/notificationData";
 import {FaBell} from "react-icons/fa";
 import {IoWarningOutline} from "react-icons/io5";
 
+/**
+ * This component serves the basic layout, elements of a notification in the notifications tab.
+ */
 function Notification(notification: NotificationData) {
     const typeBoolean = notification.type === 'WARNING';
     return (

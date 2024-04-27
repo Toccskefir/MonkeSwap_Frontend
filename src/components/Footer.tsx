@@ -2,7 +2,11 @@ import {useContext} from "react";
 import {AuthContext} from "../contexts/AuthContext";
 import {Link} from "react-router-dom";
 
-
+/**
+ * Pretty self-explanatory, the footer that appears on every page of the website, the wave-like shape that appears on
+ * the top of it, is actually an svg that is white, and the rest of the footer's color is actually the main background
+ * color of every page, a custom yellow color. The buttons lead to the pages that are available on the website.
+ */
 function Footer() {
     const {token} = useContext(AuthContext);
 

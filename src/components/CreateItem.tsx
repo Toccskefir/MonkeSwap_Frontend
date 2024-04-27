@@ -9,6 +9,13 @@ import {HttpContext} from "../providers/HttpProvider";
 import categoryList from "../constants/categoryList";
 import {UserDataContext} from "../contexts/UserDataContext";
 
+/**
+ * This is the component where the user can create new advertisements or also known as items.
+ * The item which is shown as a card on the site is getting updated constantly as the user is typing in data
+ * on the frontend, to give a representative preview of how the advertisement will look to other users.
+ * As soon as the user presses the create button, a new item gets created and inserted into the database
+ * with all of its data.
+ */
 function CreateItem() {
     const axios = useContext(HttpContext);
     const { userItems, setUserItems } = useContext(UserDataContext);

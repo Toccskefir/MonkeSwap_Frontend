@@ -8,6 +8,12 @@ import {IoCloseOutline} from "react-icons/io5";
 import clsx from "clsx";
 import {UserDataContext} from "../contexts/UserDataContext";
 
+/**
+ * This component is also self-explanatory, it's a navbar that has buttons which lead to the different pages of the
+ * website, and when the window size is too small, the buttons turn into a sidebar menu. The navbar also display the
+ * user's profile picture, which is clickable and upon clicking it, a small submenu appears with a logout function
+ * and a button that takes the user to the account's profile.
+ */
 function Navbar() {
     const {token, logout} = useContext(AuthContext);
     const {userData} = useContext(UserDataContext);

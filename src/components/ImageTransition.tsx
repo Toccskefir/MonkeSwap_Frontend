@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from "react";
 
+/**
+ * This component's sole porpuse is to animate an image sliding in slowly from the top to its original position.
+ * @param imageUrl The url of the image that will have the animation applied to it.
+ */
 const ImageTransition: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
     const [loaded, setLoaded] = useState(false);
 

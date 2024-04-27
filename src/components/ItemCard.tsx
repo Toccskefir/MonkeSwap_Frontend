@@ -3,13 +3,36 @@ import ItemData from "../interfaces/itemData";
 import {FaRegEye} from "react-icons/fa";
 import PriceTier from "./PriceTier";
 
-interface ItemCardProps {
-    item: ItemData,
-    buttonText: string,
-    showViews: boolean,
-    onButtonClick?: () => void,
+/**
+ * Serves the props to the main function of the page.
+ */
+export interface ItemCardProps {
+    /**
+     * Data representing the item.
+     */
+    item: ItemData;
+
+    /**
+     * Text to be displayed on the button.
+     */
+    buttonText: string;
+
+    /**
+     * Boolean indicating whether to show views or not.
+     */
+    showViews: boolean;
+
+    /**
+     * Optional callback function for button click event.
+     */
+    onButtonClick?: () => void;
 }
 
+/**
+ * This component is the backbone of the advertisements that appear on most of the pages.
+ * This component makes the items look like cards and also handles the flip animation that takes place when the user
+ * clicks on the cards.
+ */
 function ItemCard(props: ItemCardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
 

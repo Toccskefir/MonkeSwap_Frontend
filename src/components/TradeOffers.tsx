@@ -4,6 +4,10 @@ import TradeOfferData from "../interfaces/tradeOfferData";
 import TradeOffer from "./TradeOffer";
 import {FaArrowDown, FaArrowUp} from "react-icons/fa";
 
+/**
+ * This component makes up the Trade Offers page and displays all of the incoming and outgoing trade offers
+ * of the currently logged in user.
+ */
 function TradeOffers() {
     const axios = useContext(HttpContext);
 

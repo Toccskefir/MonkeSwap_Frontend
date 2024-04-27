@@ -3,11 +3,25 @@ import React, {useContext, useEffect, useState} from "react";
 import {FiUpload} from "react-icons/fi";
 import {UserDataContext} from "../contexts/UserDataContext";
 
-interface ProfilePictureProps {
-    selectedProfilePicture: Blob | null,
-    profilePictureUpload: (fileList: FileList) => void,
+/**
+ * Defines the props expected by components related to profile pictures.
+ */
+export interface ProfilePictureProps {
+    /**
+     * The selected profile picture, represented as a Blob object or null if no picture is selected.
+     */
+    selectedProfilePicture: Blob | null;
+
+    /**
+     * A function to handle profile picture upload.
+     */
+    profilePictureUpload: (fileList: FileList) => void;
 }
 
+/**
+ * This component is displayed on the profile page as the profile picture changer/chooser where the
+ * user can change the profile picture of the account.
+ */
 function ProfilePicture(props: ProfilePictureProps) {
     const {userData} = useContext(UserDataContext);
     const [profilePicture, setProfilePicture] = useState(userData?.profilePicture);

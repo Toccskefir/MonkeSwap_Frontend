@@ -4,6 +4,11 @@ import {useNavigate} from "react-router-dom";
 import ItemData from "../interfaces/itemData";
 import {UserDataContext} from "../contexts/UserDataContext";
 
+/**
+ * This page displays the currently logged-in user's items as cards in a grid.
+ * The user can also modify the cards by clicking on the "Update item" button on the backside of every card,
+ * but this will lead the user to a different page.
+ */
 function Inventory() {
     const { userItems, loadItems} = useContext(UserDataContext);
 

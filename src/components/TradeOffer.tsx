@@ -8,12 +8,31 @@ import ItemData from "../interfaces/itemData";
 import {UserDataContext} from "../contexts/UserDataContext";
 import PriceTier from "./PriceTier";
 
-interface TradeOfferProps {
-    tradeOffer: TradeOfferData,
-    type: 'INCOMING' | 'OFFERED',
-    onDelete: () => void,
+/**
+ * Defines the props expected by components related to trade offers.
+ */
+export interface TradeOfferProps {
+    /**
+     * The trade offer data.
+     */
+    tradeOffer: TradeOfferData;
+
+    /**
+     * The type of trade offer, indicating whether it's incoming or offered.
+     * Possible values are: 'INCOMING' | 'OFFERED'.
+     */
+    type: 'INCOMING' | 'OFFERED';
+
+    /**
+     * A function to handle the deletion of the trade offer.
+     */
+    onDelete: () => void;
 }
 
+/**
+ * This component makes the users able to handle trade offers, meaning they can accept, decline,
+ * or delete trade offers that they have incoming or outgoing.
+ */
 function TradeOffer(props: TradeOfferProps) {
     const axios = useContext(HttpContext);
     const {userData} = useContext(UserDataContext);

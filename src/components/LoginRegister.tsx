@@ -3,6 +3,9 @@ import {AuthContext} from "../contexts/AuthContext";
 import {HttpContext} from "../providers/HttpProvider";
 import ImageTransition from "./ImageTransition";
 
+/**
+ * This page is where the user can login into an existing account or register a new account.
+ */
 function LoginRegister() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');

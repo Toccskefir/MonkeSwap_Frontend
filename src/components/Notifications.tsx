@@ -3,6 +3,10 @@ import NotificationData from "../interfaces/notificationData";
 import Notification from "./Notification";
 import {HttpContext} from "../providers/HttpProvider";
 
+/**
+ * This component makes up the notifications page, where the user gets notifications about all sorts of things.
+ * Other than checking out notifications the user also has the ability to delete all of them.
+ */
 function Notifications() {
     const [notificationList, setNotificationList] = useState<NotificationData[]>([]);
     const [errorMessage, setErrorMessage] = useState('Your notifications will be displayed here');

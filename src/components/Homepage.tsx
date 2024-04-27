@@ -9,6 +9,15 @@ import PriceTier from "./PriceTier";
 import {UserDataContext} from "../contexts/UserDataContext";
 import {FaFlag} from "react-icons/fa";
 
+/**
+ * The homepage of the whole website. This is where the user can see all the advertised items, they are displayed as
+ * cards in a huge grid. If the user flips a card and then presses the "View" button, a modal pops up and the user
+ * gets a more detailed view of the chosen item. The user also has a chance to offer one of his or her items
+ * alongside a comment. Offering an item sends an actual trade offer to the other user, who gets it in his
+ * incoming trade offers tab, and gets a notification about it.
+ * The user can also report the advertisement if he or her finds it inappropiate or that it shouldn't belong on the
+ * website.
+ */
 function Homepage() {
     const axios = useContext(HttpContext);
     const { userData, userItems } = useContext(UserDataContext);
