@@ -54,6 +54,7 @@ function LoginRegister() {
         setPassword('');
         setPasswordAgain('');
         setErrorMessage('');
+        setAcceptTerms(false);
     }
 
     return (

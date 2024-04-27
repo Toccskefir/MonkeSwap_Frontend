@@ -140,7 +140,7 @@ function Profile() {
             .then(() => {
                 setNewPassword('');
                 setNewPasswordAgain('');
-                setErrorMessagePassword('Password changed!');
+                setErrorMessagePassword('Password changed successfully!');
             })
             .catch((error) => {
                 if (error.response) {
