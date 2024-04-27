@@ -52,5 +52,9 @@ https://github.com/Toccskefir/MonkeSwap_Frontend/assets/91217116/aa6c3a67-09f6-4
 
 ## Documentation
 
-### Test scenario documentation
+### TypeDoc
+
+Run the [index.html](docs/index.html) file in the docs directory for TypeDoc documentation.
+
+### Test scenario
 Click [here](https://github.com/Toccskefir/MonkeSwap_Frontend/files/15138449/MonkeSwap_Frontend_Test_Documentation.pdf) and download the test scenario documentation.
